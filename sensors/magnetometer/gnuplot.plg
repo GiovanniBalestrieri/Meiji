@@ -1,0 +1,7 @@
+
+    set style line 99 linecolor rgb "#ffffff" linetype 0 linewidth 2
+    set key top right textcolor linestyle 99 
+    set grid linestyle 99
+    set border linestyle 99
+
+    plot filename using 1:2 title "Raw compass values" linecolor rgb "green"
