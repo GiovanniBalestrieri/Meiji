@@ -121,17 +121,16 @@ class BMP085(object):
         
     def readAltitude(self, seaLevelPressure=101325):
     	"Calculates the altitude in meters"
-        #self.pressure = float(self.read_pressure())
+        self.pressure = float(self.read_pressure())
 	print "Pres %f" % self.pressure
         self.altitude = 44330.0 * (1.0 - pow(self.pressure / seaLevelPressure, 0.1903))
         return self.altitude
 
-   
-#if __name__ == "__main__":
-    #bus = smbus.SMBus(1)
-    #bmp085 = BMP085(bus, 0x77 , "BMP085") 
-    #list = bmp085.read_temperature_and_pressure()
-    #print 'Temperature: %.1f C \nPressure %.2f mbar' %(list[0],list[1])
-    #print 'Estimated Altitude:  %.2f' % bmp085.readAltitude() 
+if __name__ == "__main__":
+    bus = smbus.SMBus(1)
+    bmp085 = BMP085(bus, 0x77 , "BMP085") 
+    list = bmp085.read_temperature_and_pressure()
+    print 'Temperature: %.1f C \nPressure %.2f mbar' %(list[0],list[1])
+    print 'Estimated Altitude:  %.2f' % bmp085.readAltitude() 
 
-    #print 'PressureR/N:  %.5f TempR/N : %.2f ' %(bmp085.pressure,bmp085.temperature)  
+    print 'PressureR/N:  %.5f TempR/N : %.2f ' %(bmp085.pressure,bmp085.temperature)  
