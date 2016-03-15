@@ -77,6 +77,7 @@ class SensorITG3200(object):
 			time.sleep(delay)
 		(self.zeroX,self.zeroY,self.zeroZ) = (sumX/samples,sumY/samples,sumZ/samples)
 		print "Gyro calibration ... [Ok]"
+
 		return (self.zeroX,self.zeroY,self.zeroZ)
 		
     def default_init(self):
