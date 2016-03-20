@@ -73,16 +73,32 @@ if __name__ == "__main__":
 	import time
 	shutdown = 0
 	adx = adxl(1,0x53)	
+	aTotX = 0
+	aTotY = 0
+	aTotZ = 0
+	
+	offx = -4928/( adx.gainAccx * 9.80665)
+	offy = 4417 /( adx.gainAccx * 9.80665)
+	offz = 530.6076 /( adx.gainAccx * 9.80665)
 
-	while not shutdown >= 50:
-
-		offx = adx.read_byte(0x1E)		
-		offy = adx.read_byte(0x1F)		
-		offz = adx.read_byte(0x20)		
+	while not shutdown == 100:
+		shutdown = shutdown + 1
+		
+		#offx = adx.read_byte(0x1E)		
+		#offy = adx.read_byte(0x1F)		
+		#offz = adx.read_byte(0x20)		
 		
 		accel_xout = adx.read_word_2c(adx.accx0)
 		accel_yout = adx.read_word_2c(adx.accy0)
 		accel_zout = adx.read_word_2c(adx.accz0)
+
+		accel_xout = accel_xout - offx
+		accel_yout = accel_yout - offy
+		accel_zout = accel_zout - offz
+		
+		#aTotX = aTotX + accel_xout
+		#aTotY = aTotY + accel_yout
+		#aTotZ = aTotZ + accel_zout
 
 		accel_xout_scaled = accel_xout * adx.gainAccx
 		accel_yout_scaled = accel_yout * adx.gainAccy
@@ -91,12 +107,14 @@ if __name__ == "__main__":
 		accGX = accel_xout_scaled * 9.80665
 		accGY = accel_yout_scaled * 9.80665
 		accGZ = accel_zout_scaled * 9.80665
-		print "\n\naccel_xout: ", accel_xout , "\t scaled: ", accel_xout_scaled, "\t g: ", accGX, "\tOff: ", offx
-		print "accel_yout: ", accel_yout , "\tscaled: ", accel_yout_scaled, "\t g: ", accGY, "\tOff: ", offy
-		print "accel_zout: ", accel_zout , "\t scaled: ", accel_zout_scaled, "\t g: ", accGZ, "\tOff: ", offz
+		print "\n\naccel_xout: ", accel_xout , "\t scaled: ", accel_xout_scaled, "\t g: ", accGX#, "\tOff: ", offx
+		print "accel_yout: ", accel_yout , "\tscaled: ", accel_yout_scaled, "\t g: ", accGY#, "\tOff: ", offy
+		print "accel_zout: ", accel_zout , "\t scaled: ", accel_zout_scaled, "\t g: ", accGZ#, "\tOff: ", offz
 	
 		print "\n\nx rotation: " , adx.get_x_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled)
 		print "y rotation: " , adx.get_y_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled)	
 		time.sleep(0.1)
 	
+	print "finished calibration\n\n"
+	#print "Offset X: ", aTotX/100, "\tY: ", aTotY/100, "\tZ: " ,aTotZ/100
 
