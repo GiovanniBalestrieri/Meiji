@@ -72,16 +72,30 @@ class adxl(object):
 if __name__ == "__main__":
 	import time
 	shutdown = 0
+	N = 200
+
 	adx = adxl(1,0x53)	
+
 	aTotX = 0
 	aTotY = 0
 	aTotZ = 0
 	
-	offx = -4928/( adx.gainAccx * 9.80665)
-	offy = 4417 /( adx.gainAccx * 9.80665)
-	offz = 530.6076 /( adx.gainAccx * 9.80665)
+	#offx = -4928/( adx.gainAccx * 9.80665)
+	#offy = 4417 /( adx.gainAccx * 9.80665)
+	#offz = 530.6076 /( adx.gainAccx * 9.80665)
 
-	while not shutdown == 100:
+	offx = 322#*adx.gainAccx
+	offy = -850#*adx.gainAccy
+	offz = -13295#*adx.gainAccz
+
+	gainx = 2257
+	invGainx = 0.000443066
+	gainy = -3177
+	invGainy = -0.000314
+	gainz = 825
+	invGainz = 0.0012
+
+	while not shutdown == N:
 		shutdown = shutdown + 1
 		
 		#offx = adx.read_byte(0x1E)		
@@ -94,11 +108,15 @@ if __name__ == "__main__":
 
 		accel_xout = accel_xout - offx
 		accel_yout = accel_yout - offy
-		accel_zout = accel_zout - offz
+		#accel_zout = accel_zout - offz
+
+		accX = (accel_xout)*invGainx
+		accY = (accel_yout)*invGainy
+		accZ = (accel_zout)*invGainz
 		
-		#aTotX = aTotX + accel_xout
-		#aTotY = aTotY + accel_yout
-		#aTotZ = aTotZ + accel_zout
+		aTotX = aTotX + accel_xout
+		aTotY = aTotY + accel_yout
+		aTotZ = aTotZ + accel_zout
 
 		accel_xout_scaled = accel_xout * adx.gainAccx
 		accel_yout_scaled = accel_yout * adx.gainAccy
@@ -107,14 +125,22 @@ if __name__ == "__main__":
 		accGX = accel_xout_scaled * 9.80665
 		accGY = accel_yout_scaled * 9.80665
 		accGZ = accel_zout_scaled * 9.80665
+		
 		print "\n\naccel_xout: ", accel_xout , "\t scaled: ", accel_xout_scaled, "\t g: ", accGX#, "\tOff: ", offx
 		print "accel_yout: ", accel_yout , "\tscaled: ", accel_yout_scaled, "\t g: ", accGY#, "\tOff: ", offy
 		print "accel_zout: ", accel_zout , "\t scaled: ", accel_zout_scaled, "\t g: ", accGZ#, "\tOff: ", offz
 	
 		print "\n\nx rotation: " , adx.get_x_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled)
 		print "y rotation: " , adx.get_y_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled)	
+		
+		print "\n\n Accs: ",accX , "\t", accY, "\t", accZ
+	
 		time.sleep(0.1)
 	
 	print "finished calibration\n\n"
+
+	print "X0 = ", aTotX/N
+	print "Y0 = ", aTotY/N
+	print "Z0 = ", aTotZ/N
 	#print "Offset X: ", aTotX/100, "\tY: ", aTotY/100, "\tZ: " ,aTotZ/100
 
