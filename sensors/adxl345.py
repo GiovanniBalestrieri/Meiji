@@ -2,6 +2,7 @@
 from time import sleep
 import smbus
 import math
+from __future__ import print_function
 
 class adxl(object):
 	
@@ -70,7 +71,7 @@ class adxl(object):
 	    return math.sqrt((a*a)+(b*b))
 
 if __name__ == "__main__":
-	import time
+	
 	shutdown = 0
 	N = 200
 
