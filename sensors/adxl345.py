@@ -1,8 +1,11 @@
 #!/usr/bin/python
+import time
 from time import sleep
 import smbus
 import math
-from __future__ import print_function
+
+logpath = '/home/userk/sensors/Meiji/sensors/log/acc.csv'
+logpathRaw = '/home/userk/sensors/Meiji/sensors/log/accRaw.csv'
 
 class adxl(object):
 	
@@ -12,10 +15,20 @@ class adxl(object):
 		# This is the address read via i2cdetect
 		self.address = address
 		
-		self.gainAccx = 0.0039
-		self.gainAccy = 0.0039
-		self.gainAccz = 0.0039
+		# Unwrapping tolerance
+		self.Ztol2g = 32384 #32384
+		self.Xtol2g = 32256
+		self.Ytol2g = 32128
+
+		self.gainAccx2g = 0.0039
+		self.gainAccy2g = 0.0039
+		self.gainAccz2g = 0.0039
 		
+		
+		self.gainAccx16g = 0.0312
+		self.gainAccy16g = 0.0312
+		self.gainAccz16g = 0.0312
+
 		# Power management registers
 		self.power_mgmt_1 = 0x6b
 		self.adxl345_power_ctl = 0x2d
@@ -39,7 +52,8 @@ class adxl(object):
 		# Now wake the 6050 up as it starts in sleep mode
 		self.bus.write_byte_data(self.address, self.adxl345_power_ctl, 8)
 		afs_scale = self.AFS_2g
-		data_format = 1 << 3 | afs_scale
+		data_format = afs_scale  # Set Full Res + G res
+		data_format =  afs_scale
 		self.bus.write_byte_data(self.address, self.adxl345_res_ctl, data_format)
 		sleep(0.500)
 
@@ -70,8 +84,18 @@ class adxl(object):
 	def dist(self,a,b):
 	    return math.sqrt((a*a)+(b*b))
 
+	def unwrap(self,past,actual,tol):
+	    #Upward unwrapping
+	    if (past - actual > tol):
+	        actual = actual + 2*tol;
+	    #Downward wrapping
+	    if (actual - past > tol):
+	        actual = actual - 2*tol
+	    return actual
+
 if __name__ == "__main__":
-	
+	f = open(logpath,'w+')
+	F = open(logpathRaw,'w+')
 	shutdown = 0
 	N = 200
 
@@ -81,6 +105,10 @@ if __name__ == "__main__":
 	aTotY = 0
 	aTotZ = 0
 	
+	accXM1 = 0
+	accYM1 = 0
+	accZM1 = 0
+
 	#offx = -4928/( adx.gainAccx * 9.80665)
 	#offy = 4417 /( adx.gainAccx * 9.80665)
 	#offz = 530.6076 /( adx.gainAccx * 9.80665)
@@ -88,13 +116,6 @@ if __name__ == "__main__":
 	offx = 322#*adx.gainAccx
 	offy = -850#*adx.gainAccy
 	offz = -13295#*adx.gainAccz
-
-	gainx = 2257
-	invGainx = 0.000443066
-	gainy = -3177
-	invGainy = -0.000314
-	gainz = 825
-	invGainz = 0.0012
 
 	while not shutdown == N:
 		shutdown = shutdown + 1
@@ -106,22 +127,30 @@ if __name__ == "__main__":
 		accel_xout = adx.read_word_2c(adx.accx0)
 		accel_yout = adx.read_word_2c(adx.accy0)
 		accel_zout = adx.read_word_2c(adx.accz0)
-
-		accel_xout = accel_xout - offx
-		accel_yout = accel_yout - offy
+	
+		accel_zoutF = adx.unwrap(accZM1,accel_zout,adx.Ztol2g)
+		accel_xoutF = adx.unwrap(accXM1,accel_xout,adx.Xtol2g)
+		accel_youtF = adx.unwrap(accYM1,accel_yout,adx.Ytol2g)
+	
+		accXM1 = accel_xoutF
+		accYM1 = accel_youtF
+		accZM1 = accel_zoutF
+		
+		#accel_xout = accel_xout - offx
+		#accel_yout = accel_yout - offy
 		#accel_zout = accel_zout - offz
 
-		accX = (accel_xout)*invGainx
-		accY = (accel_yout)*invGainy
-		accZ = (accel_zout)*invGainz
+		#accX = (accel_xout)*invGainx
+		#accY = (accel_yout)*invGainy
+		#accZ = (accel_zout)*invGainz
 		
 		aTotX = aTotX + accel_xout
 		aTotY = aTotY + accel_yout
 		aTotZ = aTotZ + accel_zout
-
-		accel_xout_scaled = accel_xout * adx.gainAccx
-		accel_yout_scaled = accel_yout * adx.gainAccy
-		accel_zout_scaled = accel_zout * adx.gainAccz
+		
+		accel_xout_scaled = accel_xout * adx.gainAccx2g
+		accel_yout_scaled = accel_yout * adx.gainAccy2g
+		accel_zout_scaled = accel_zout * adx.gainAccz2g
 	
 		accGX = accel_xout_scaled * 9.80665
 		accGY = accel_yout_scaled * 9.80665
@@ -134,8 +163,27 @@ if __name__ == "__main__":
 		print "\n\nx rotation: " , adx.get_x_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled)
 		print "y rotation: " , adx.get_y_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled)	
 		
-		print "\n\n Accs: ",accX , "\t", accY, "\t", accZ
-	
+		#print "\n\n Accs: ",accX , "\t", accY, "\t", accZ
+		
+		F.write('A,')
+		F.write(str(accel_xout))
+		F.write(',') 
+		F.write(str(accel_yout))
+		F.write(',') 
+		F.write(str(accel_zout))
+		F.write(',')
+		F.write(str(shutdown))
+		F.write(',z\n')
+
+		f.write('A,')
+		f.write(str(accel_xoutF))
+		f.write(',') 
+		f.write(str(accel_youtF))
+		f.write(',') 
+		f.write(str(accel_zoutF))
+		f.write(',')
+		f.write(str(shutdown))
+		f.write(',z\n')
 		time.sleep(0.1)
 	
 	print "finished calibration\n\n"
@@ -143,5 +191,7 @@ if __name__ == "__main__":
 	print "X0 = ", aTotX/N
 	print "Y0 = ", aTotY/N
 	print "Z0 = ", aTotZ/N
-	#print "Offset X: ", aTotX/100, "\tY: ", aTotY/100, "\tZ: " ,aTotZ/100
-
+	
+#print "Offset X: ", aTotX/100, "\tY: ", aTotY/100, "\tZ: " ,aTotZ/100
+	f.close()
+	F.close()
