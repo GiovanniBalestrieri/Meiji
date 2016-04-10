@@ -118,18 +118,6 @@ if __name__ == "__main__":
 
 	adx = adxl(1,0x53)	
 
-	aTotX = 0
-	aTotY = 0
-	aTotZ = 0
-	
-	accXM1 = 0
-	accYM1 = 0
-	accZM1 = 0
-
-	#offx = -4928/( adx.gainAccx * 9.80665)
-	#offy = 4417 /( adx.gainAccx * 9.80665)
-	#offz = 530.6076 /( adx.gainAccx * 9.80665)
-
 	offx = 0.4666
 	offy = -0.1594
 	offz = -0.7343
