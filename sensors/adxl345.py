@@ -130,32 +130,19 @@ if __name__ == "__main__":
 	#offy = 4417 /( adx.gainAccx * 9.80665)
 	#offz = 530.6076 /( adx.gainAccx * 9.80665)
 
-	offx = 0.53123603715
-	offy = 0.048381107775
-	offz = 9.05874093443
+	offx = 0.4666
+	offy = -0.1594
+	offz = -0.7343
 	
 	while not shutdown == N:
 		shutdown = shutdown + 1
 		
-	    	#input = raw_input()
-		#offx = adx.read_byte(0x1E)		
-		#offy = adx.read_byte(0x1F)		
-		#offz = adx.read_byte(0x20)		
-		
 		axes = adx.getAxes(False)
-    		print "ADXL345 on address 0x%x:" % (adx.address)
-    		print "   x = %.3fG" % ( axes['x'] )
-    		print "   y = %.3fG" % ( axes['y'] )
-		print "   z = %.3fG" % ( axes['z'] )
 
 		axes['x'] = axes['x'] - offx
 		axes['y'] = axes['y'] - offy
 		axes['z'] = axes['z'] - offz
 
-		aTotX = aTotX + axes['x']
-		aTotY = aTotY + axes['y']
-		aTotZ = aTotZ + axes['z']
-		
 		print "\n\nAcc X: ", axes['x'] , "m/s^2\t  ", axes['x']*1/adx.EARTH_GRAVITY_MS2, "G\t"
 	
 		print "\n\nAcc Y: ", axes['y'] , "m/s^2\t  ", axes['y']*1/adx.EARTH_GRAVITY_MS2, "G\t"
@@ -166,10 +153,6 @@ if __name__ == "__main__":
 		print "y rotation: " , adx.get_y_rotation(axes['x'],axes['y'],axes['z'])	
 		
 		
-
-		#print "\n\n Accs: ",accX , "\t", accY, "\t", accZ
-		
-
 		F.write('A,')
 		F.write(str(axes['x']))
 		F.write(',') 
@@ -191,12 +174,5 @@ if __name__ == "__main__":
 		f.write(',z\n')
 		time.sleep(0.1)
 	
-	print "finished calibration\n\n"
-
-	print "X0 = ", aTotX/N
-	print "Y0 = ", aTotY/N
-	print "Z0 = ", aTotZ/N
-	
-#print "Offset X: ", aTotX/100, "\tY: ", aTotY/100, "\tZ: " ,aTotZ/100
 	f.close()
 	F.close()
