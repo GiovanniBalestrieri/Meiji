@@ -15,16 +15,12 @@ class adxl(object):
 		# This is the address read via i2cdetect
 		self.address = address
 		
-		# Unwrapping tolerance
-		self.Ztol2g = 32384 #32384
-		self.Xtol2g = 32256
-		self.Ytol2g = 32128
-
 		self.gainAccx2g = 0.0039
 		self.gainAccy2g = 0.0039
 		self.gainAccz2g = 0.0039
 		
-		
+		self.EARTH_GRAVITY_MS2   = 9.80665		
+
 		self.gainAccx16g = 0.0312
 		self.gainAccy16g = 0.0312
 		self.gainAccz16g = 0.0312
@@ -45,6 +41,9 @@ class adxl(object):
 		self.accx0 = 0x32
 		self.accy0 = 0x34
 		self.accz0 = 0x36
+
+		#Start register
+		self.AXES_DATA  = 0x32
 	
 		# This is the address read via i2cdetect
 		self.address = address
@@ -52,10 +51,44 @@ class adxl(object):
 		# Now wake the 6050 up as it starts in sleep mode
 		self.bus.write_byte_data(self.address, self.adxl345_power_ctl, 8)
 		afs_scale = self.AFS_2g
-		data_format = afs_scale  # Set Full Res + G res
 		data_format =  afs_scale
 		self.bus.write_byte_data(self.address, self.adxl345_res_ctl, data_format)
 		sleep(0.500)
+
+	# returns the current reading from the sensor for each axis
+	#
+        # parameter gforce:
+        #    False (default): result is returned in m/s^2
+        #    True           : result is returned in gs
+   	def getAxes(self, gforce = False):
+        	bytes = self.bus.read_i2c_block_data(self.address, self.AXES_DATA, 6)
+        
+	        x = bytes[0] | (bytes[1] << 8)
+	        if(x & (1 << 16 - 1)):
+       		    x = x - (1<<16)
+
+	        y = bytes[2] | (bytes[3] << 8)
+        	if(y & (1 << 16 - 1)):
+	            y = y - (1<<16)
+
+        	z = bytes[4] | (bytes[5] << 8)
+	        if(z & (1 << 16 - 1)):
+	            z = z - (1<<16)
+
+	        x = x * self.gainAccx2g
+        	y = y * self.gainAccx2g
+	        z = z * self.gainAccx2g
+
+	        if gforce == False:
+	            x = x * self.EARTH_GRAVITY_MS2
+	            y = y * self.EARTH_GRAVITY_MS2
+	            z = z * self.EARTH_GRAVITY_MS2
+
+        	#x = round(x, 4)
+	        #y = round(y, 4)
+	        #z = round(z, 4)
+
+        	return {"x": x, "y": y, "z": z}	
 
 	def get_y_rotation(self,x,y,z):
 		radians = math.atan2(x, self.dist(y,z))
@@ -74,24 +107,8 @@ class adxl(object):
 	    val = (high << 8) + low
 	    return val
 
-	def read_word_2c(self,adr):
-	    val = self.read_word(adr)
-	    if (val >= 0x8000):
-	        return -((65535 - val) + 1)
-	    else:
-	        return val
-
 	def dist(self,a,b):
 	    return math.sqrt((a*a)+(b*b))
-
-	def unwrap(self,past,actual,tol):
-	    #Upward unwrapping
-	    if (past - actual > tol):
-	        actual = actual + 2*tol;
-	    #Downward wrapping
-	    if (actual - past > tol):
-	        actual = actual - 2*tol
-	    return actual
 
 if __name__ == "__main__":
 	f = open(logpath,'w+')
@@ -113,74 +130,62 @@ if __name__ == "__main__":
 	#offy = 4417 /( adx.gainAccx * 9.80665)
 	#offz = 530.6076 /( adx.gainAccx * 9.80665)
 
-	offx = 322#*adx.gainAccx
-	offy = -850#*adx.gainAccy
-	offz = -13295#*adx.gainAccz
-
+	offx = 0.53123603715
+	offy = 0.048381107775
+	offz = 9.05874093443
+	
 	while not shutdown == N:
 		shutdown = shutdown + 1
 		
+	    	#input = raw_input()
 		#offx = adx.read_byte(0x1E)		
 		#offy = adx.read_byte(0x1F)		
 		#offz = adx.read_byte(0x20)		
 		
-		accel_xout = adx.read_word_2c(adx.accx0)
-		accel_yout = adx.read_word_2c(adx.accy0)
-		accel_zout = adx.read_word_2c(adx.accz0)
-	
-		accel_zoutF = adx.unwrap(accZM1,accel_zout,adx.Ztol2g)
-		accel_xoutF = adx.unwrap(accXM1,accel_xout,adx.Xtol2g)
-		accel_youtF = adx.unwrap(accYM1,accel_yout,adx.Ytol2g)
-	
-		accXM1 = accel_xoutF
-		accYM1 = accel_youtF
-		accZM1 = accel_zoutF
-		
-		#accel_xout = accel_xout - offx
-		#accel_yout = accel_yout - offy
-		#accel_zout = accel_zout - offz
+		axes = adx.getAxes(False)
+    		print "ADXL345 on address 0x%x:" % (adx.address)
+    		print "   x = %.3fG" % ( axes['x'] )
+    		print "   y = %.3fG" % ( axes['y'] )
+		print "   z = %.3fG" % ( axes['z'] )
 
-		#accX = (accel_xout)*invGainx
-		#accY = (accel_yout)*invGainy
-		#accZ = (accel_zout)*invGainz
+		axes['x'] = axes['x'] - offx
+		axes['y'] = axes['y'] - offy
+		axes['z'] = axes['z'] - offz
+
+		aTotX = aTotX + axes['x']
+		aTotY = aTotY + axes['y']
+		aTotZ = aTotZ + axes['z']
 		
-		aTotX = aTotX + accel_xout
-		aTotY = aTotY + accel_yout
-		aTotZ = aTotZ + accel_zout
-		
-		accel_xout_scaled = accel_xout * adx.gainAccx2g
-		accel_yout_scaled = accel_yout * adx.gainAccy2g
-		accel_zout_scaled = accel_zout * adx.gainAccz2g
+		print "\n\nAcc X: ", axes['x'] , "m/s^2\t  ", axes['x']*1/adx.EARTH_GRAVITY_MS2, "G\t"
 	
-		accGX = accel_xout_scaled * 9.80665
-		accGY = accel_yout_scaled * 9.80665
-		accGZ = accel_zout_scaled * 9.80665
+		print "\n\nAcc Y: ", axes['y'] , "m/s^2\t  ", axes['y']*1/adx.EARTH_GRAVITY_MS2, "G\t"
+
+		print "\n\nAcc Z: ", axes['z'] , "m/s^2\t  ", axes['z']*1/adx.EARTH_GRAVITY_MS2, "G\t"
+
+		print "\n\nx rotation: " , adx.get_x_rotation(axes['x'],axes['y'],axes['z'])
+		print "y rotation: " , adx.get_y_rotation(axes['x'],axes['y'],axes['z'])	
 		
-		print "\n\naccel_xout: ", accel_xout , "\t scaled: ", accel_xout_scaled, "\t g: ", accGX#, "\tOff: ", offx
-		print "accel_yout: ", accel_yout , "\tscaled: ", accel_yout_scaled, "\t g: ", accGY#, "\tOff: ", offy
-		print "accel_zout: ", accel_zout , "\t scaled: ", accel_zout_scaled, "\t g: ", accGZ#, "\tOff: ", offz
-	
-		print "\n\nx rotation: " , adx.get_x_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled)
-		print "y rotation: " , adx.get_y_rotation(accel_xout_scaled, accel_yout_scaled, accel_zout_scaled)	
 		
+
 		#print "\n\n Accs: ",accX , "\t", accY, "\t", accZ
 		
+
 		F.write('A,')
-		F.write(str(accel_xout))
+		F.write(str(axes['x']))
 		F.write(',') 
-		F.write(str(accel_yout))
+		F.write(str(axes['y']))
 		F.write(',') 
-		F.write(str(accel_zout))
+		F.write(str(axes['z']))
 		F.write(',')
 		F.write(str(shutdown))
 		F.write(',z\n')
 
 		f.write('A,')
-		f.write(str(accel_xoutF))
+		f.write(str(axes['x']))
 		f.write(',') 
-		f.write(str(accel_youtF))
+		f.write(str(axes['y']))
 		f.write(',') 
-		f.write(str(accel_zoutF))
+		f.write(str(axes['z']))
 		f.write(',')
 		f.write(str(shutdown))
 		f.write(',z\n')
