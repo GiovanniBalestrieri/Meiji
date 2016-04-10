@@ -119,11 +119,11 @@ class BMP085(object):
         return self.calculate()
      
         
-    def readAltitude(self, seaLevelPressure=101325):
+    def readAltitude(self, seaLevelPressure=1013.25):
     	"Calculates the altitude in meters"
         self.pressure = float(self.read_pressure())
 	print "Pres %f" % self.pressure
-        self.altitude = 44330.0 * (1.0 - pow(self.pressure / seaLevelPressure, 0.1903))
+        self.altitude = (1.0 - pow(self.pressure / seaLevelPressure, (1.0/5.25588)))/0.0000225577
         return self.altitude
 
 if __name__ == "__main__":
