@@ -9,22 +9,41 @@ logpathRaw = '/home/userk/sensors/Meiji/sensors/log/accRaw.csv'
 
 class adxl(object):
 	
-	def __init__(self, bus_nr, address):
+	# Initialized Adxl345
+	#	
+	# PARAM:
+	#	bus_nr   : number of i2c adapter to access
+	# 	address  : device address to communicate with
+	#	gRange   : Acceleration resolution
+	#			 0 -> 2g
+	#			 1 -> 4g
+	#			 2 -> 8g
+	#			 3 -> 16g
+	def __init__(self, bus_nr, address, gRange):
+
 		self.bus = smbus.SMBus(bus_nr)
-		
-		# This is the address read via i2cdetect
 		self.address = address
+		
+		self.gRange = gRange
 		
 		self.gainAccx2g = 0.0039
 		self.gainAccy2g = 0.0039
 		self.gainAccz2g = 0.0039
-		
-		self.EARTH_GRAVITY_MS2   = 9.80665		
+
+		self.gainAccx4g = 0.0078
+		self.gainAccy4g = 0.0078
+		self.gainAccz4g = 0.0078
+
+		self.gainAccx8g = 0.0156
+		self.gainAccy8g = 0.0156
+		self.gainAccz8g = 0.0156
 
 		self.gainAccx16g = 0.0312
 		self.gainAccy16g = 0.0312
 		self.gainAccz16g = 0.0312
 
+		self.EARTH_GRAVITY_MS2   = 9.80665		
+		
 		# Power management registers
 		self.power_mgmt_1 = 0x6b
 		self.adxl345_power_ctl = 0x2d
@@ -50,17 +69,28 @@ class adxl(object):
 		
 		# Now wake the 6050 up as it starts in sleep mode
 		self.bus.write_byte_data(self.address, self.adxl345_power_ctl, 8)
-		afs_scale = self.AFS_2g
+		if gRange == self.AFS_2g:
+			afs_scale = self.AFS_2g
+		elif gRange == self.AFS_4g:
+			afs_scale = self.AFS_4g
+		elif gRange == self.AFS_8g:
+			afs_scale = self.AFS_8g
+		elif gRange == self.AFS_16g:
+			afs_scale = self.AFS_16g
 		data_format =  afs_scale
 		self.bus.write_byte_data(self.address, self.adxl345_res_ctl, data_format)
 		sleep(0.500)
 
-	# returns the current reading from the sensor for each axis
+	# Returns the reading for each axis. 
 	#
-        # parameter gforce:
-        #    False (default): result is returned in m/s^2
-        #    True           : result is returned in gs
-   	def getAxes(self, gforce = False):
+        # PARAM:
+	#	@ gforce:
+        #    	False (default): result is returned in m/s^2
+        #    	True           : result is returned in gs
+	#  	@ round:
+	#	False	       : raw value
+	#  	True	       : Rounds to 4th digit from dec point
+   	def getAxes(self, gforce = False, roundAcc = True):
         	bytes = self.bus.read_i2c_block_data(self.address, self.AXES_DATA, 6)
         
 	        x = bytes[0] | (bytes[1] << 8)
@@ -75,18 +105,32 @@ class adxl(object):
 	        if(z & (1 << 16 - 1)):
 	            z = z - (1<<16)
 
-	        x = x * self.gainAccx2g
-        	y = y * self.gainAccx2g
-	        z = z * self.gainAccx2g
-
-	        if gforce == False:
+		if self.gRange == self.AFS_2g:
+		        x = x * self.gainAccx2g
+        		y = y * self.gainAccx2g
+	        	z = z * self.gainAccx2g
+		elif self.gRange == self.AFS_4g:
+		        x = x * self.gainAccx4g
+        		y = y * self.gainAccx4g
+	        	z = z * self.gainAccx4g
+		elif self.gRange == self.AFS_8g:
+		        x = x * self.gainAccx8g
+        		y = y * self.gainAccx8g
+	        	z = z * self.gainAccx8g
+		elif self.gRange == self.AFS_16g:
+		        x = x * self.gainAccx16g
+        		y = y * self.gainAccx16g
+	        	z = z * self.gainAccx16g
+	        
+		if gforce == False:
 	            x = x * self.EARTH_GRAVITY_MS2
 	            y = y * self.EARTH_GRAVITY_MS2
 	            z = z * self.EARTH_GRAVITY_MS2
 
-        	#x = round(x, 4)
-	        #y = round(y, 4)
-	        #z = round(z, 4)
+		if roundAcc:		
+        		x = round(x, 4)
+	        	y = round(y, 4)
+	        	z = round(z, 4)
 
         	return {"x": x, "y": y, "z": z}	
 
@@ -98,15 +142,6 @@ class adxl(object):
 		radians = math.atan2(y, self.dist(x,z))
 		return math.degrees(radians)
 
-	def read_byte(self,adr):
-	    return self.bus.read_byte_data(self.address, adr)
-
-	def read_word(self,adr):
-	    high = self.bus.read_byte_data(self.address, adr)
-	    low = self.bus.read_byte_data(self.address, adr+1)
-	    val = (high << 8) + low
-	    return val
-
 	def dist(self,a,b):
 	    return math.sqrt((a*a)+(b*b))
 
@@ -116,8 +151,11 @@ if __name__ == "__main__":
 	shutdown = 0
 	N = 200
 
-	adx = adxl(1,0x53)	
-
+	# adxl(i2c_adapter,bus_nr,resolution)
+	#	[0,1,2,3] for [2g,4g,8g,16g]
+	adx = adxl(1,0x53,3)	
+	print "Resolution: " ,adx.gRange 
+	
 	offx = 0.4666
 	offy = -0.1594
 	offz = -0.7343
@@ -125,7 +163,7 @@ if __name__ == "__main__":
 	while not shutdown == N:
 		shutdown = shutdown + 1
 		
-		axes = adx.getAxes(False)
+		axes = adx.getAxes()
 
 		axes['x'] = axes['x'] - offx
 		axes['y'] = axes['y'] - offy
