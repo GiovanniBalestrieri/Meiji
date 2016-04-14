@@ -8,7 +8,7 @@ import numpy as np
 logpath = '/home/userk/sensors/Meiji/sensors/log/acc.csv'
 logpathRaw = '/home/userk/sensors/Meiji/sensors/log/accRaw.csv'
 
-class adxl(object):
+class Adxl(object):
 	
 	# Initialized Adxl345
 	#	
@@ -161,12 +161,15 @@ class adxl(object):
 	def dist(self,a,b):
 	    return math.sqrt((a*a)+(b*b))
 	
-	def toG(self):
-		axes = self.getAxes()
-		axes['x'] = axes['x']*1/self.EARTH_GRAVITY_MS2
-		axes['y'] = axes['y']*1/self.EARTH_GRAVITY_MS2
-		axes['z'] = axes['z']*1/self.EARTH_GRAVITY_MS2
-		return axes
+	def toG(self,axes):
+		G = {"x": "N", "y": "N", "z": "N"}
+		if len(axes) == 3:
+			G['x'] = round(axes['x']*1/self.EARTH_GRAVITY_MS2,4)
+			G['y'] = round(axes['y']*1/self.EARTH_GRAVITY_MS2,4)
+			G['z'] = round(axes['z']*1/self.EARTH_GRAVITY_MS2,4)
+		else :
+			print "Warning - toG() wrong type received"
+		return G
 
 if __name__ == "__main__":
 	f = open(logpath,'w+')
@@ -183,12 +186,15 @@ if __name__ == "__main__":
 		shutdown = shutdown + 1
 		
 		axes = adx.getAxes()
-
-		print "\n\nAcc X: ", axes['x'] , "m/s^2\t  ", axes['x']*1/adx.EARTH_GRAVITY_MS2, "G\t"
+		axesG = adx.toG(axes)
+		print "\n\nAcc X: ", axes['x'] , "m/s^2"
+		print "Acc X: ", axesG['x'], "G\t"
 	
-		print "\n\nAcc Y: ", axes['y'] , "m/s^2\t  ", axes['y']*1/adx.EARTH_GRAVITY_MS2, "G\t"
+		print "\n\nAcc Y: ", axes['y'] , "m/s^2"
+		print "Acc Y: ", axesG['y'], "G\t"
 
-		print "\n\nAcc Z: ", axes['z'] , "m/s^2\t  ", axes['z']*1/adx.EARTH_GRAVITY_MS2, "G\t"
+		print "\n\nAcc Z: ", axes['z'] , "m/s^2"
+		print "Acc Z: ", axesG['z'], "G\t"
 
 		print "\n\nx rotation: " , adx.getRoll()
 		print "y rotation: " , adx.getPitch()		
