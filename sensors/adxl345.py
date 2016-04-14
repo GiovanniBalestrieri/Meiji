@@ -3,6 +3,7 @@ import time
 from time import sleep
 import smbus
 import math
+import numpy as np
 
 logpath = '/home/userk/sensors/Meiji/sensors/log/acc.csv'
 logpathRaw = '/home/userk/sensors/Meiji/sensors/log/accRaw.csv'
@@ -63,6 +64,10 @@ class adxl(object):
 
 		#Start register
 		self.AXES_DATA  = 0x32
+		
+		self.offx = 0.4666
+		self.offy = -0.1594
+		self.offz = -0.7343
 	
 		# This is the address read via i2cdetect
 		self.address = address
@@ -131,8 +136,19 @@ class adxl(object):
         		x = round(x, 4)
 	        	y = round(y, 4)
 	        	z = round(z, 4)
+		
+	 	x = x - self.offx
+		y = y - self.offy
+		z = z - self.offz
 
         	return {"x": x, "y": y, "z": z}	
+
+	def getRoll(self):
+		acc = self.getAxes()
+		return self.get_x_rotation(acc['x'],acc['y'],acc['z'])		
+	def getPitch(self):
+		acc = self.getAxes()
+		return self.get_y_rotation(acc['x'],acc['y'],acc['z'])
 
 	def get_y_rotation(self,x,y,z):
 		radians = math.atan2(x, self.dist(y,z))
@@ -144,6 +160,13 @@ class adxl(object):
 
 	def dist(self,a,b):
 	    return math.sqrt((a*a)+(b*b))
+	
+	def toG(self):
+		axes = self.getAxes()
+		axes['x'] = axes['x']*1/self.EARTH_GRAVITY_MS2
+		axes['y'] = axes['y']*1/self.EARTH_GRAVITY_MS2
+		axes['z'] = axes['z']*1/self.EARTH_GRAVITY_MS2
+		return axes
 
 if __name__ == "__main__":
 	f = open(logpath,'w+')
@@ -153,21 +176,13 @@ if __name__ == "__main__":
 
 	# adxl(i2c_adapter,bus_nr,resolution)
 	#	[0,1,2,3] for [2g,4g,8g,16g]
-	adx = adxl(1,0x53,3)	
+	adx = adxl(1,0x53,0)	
 	print "Resolution: " ,adx.gRange 
-	
-	offx = 0.4666
-	offy = -0.1594
-	offz = -0.7343
 	
 	while not shutdown == N:
 		shutdown = shutdown + 1
 		
 		axes = adx.getAxes()
-
-		axes['x'] = axes['x'] - offx
-		axes['y'] = axes['y'] - offy
-		axes['z'] = axes['z'] - offz
 
 		print "\n\nAcc X: ", axes['x'] , "m/s^2\t  ", axes['x']*1/adx.EARTH_GRAVITY_MS2, "G\t"
 	
@@ -175,9 +190,8 @@ if __name__ == "__main__":
 
 		print "\n\nAcc Z: ", axes['z'] , "m/s^2\t  ", axes['z']*1/adx.EARTH_GRAVITY_MS2, "G\t"
 
-		print "\n\nx rotation: " , adx.get_x_rotation(axes['x'],axes['y'],axes['z'])
-		print "y rotation: " , adx.get_y_rotation(axes['x'],axes['y'],axes['z'])	
-		
+		print "\n\nx rotation: " , adx.getRoll()
+		print "y rotation: " , adx.getPitch()		
 		
 		F.write('A,')
 		F.write(str(axes['x']))
