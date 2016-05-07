@@ -11,11 +11,61 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <math.h>
 
 #define EARTH_GRAVITY_MS2 9.80665
 #define gainAccx2g	0.0039
+#define offAccX 0.4666
+#define offAccY -0.1594
+#define offAccZ -0.7343
+#define X_INDEX 0
+#define Y_INDEX 1
+#define Z_INDEX 2
+
+
 float accX,accY,accZ;
 int temp_value;
+
+#ifndef M_PI 
+	#define M_PI 3.1415926535 
+#endif
+
+/*
+ *	Interprets the 16 bit value a (positive or negative) two's
+ *  complement
+ *  PARAM
+ * 		@CHAR array of bytes	
+ *		@BOOL converts to G if true
+ */
+int fromBuffer2Acc(char buffer[],int gs)
+{
+	temp_value = (((int16_t)buffer[1]) << 8) | buffer[0];
+	if (temp_value & (1<<(16-1)))
+		temp_value  = temp_value - (1<<16);
+	if (gs){
+		//temp_value =  temp_value - offAccX;
+		accX = (float)  temp_value * gainAccx2g * EARTH_GRAVITY_MS2;
+	}
+
+	temp_value = (((int16_t)buffer[3]) << 8) | buffer[2];
+	if (temp_value & (1<<(16-1)))
+		temp_value  = temp_value - (1<<16);
+	if (gs){
+		//temp_value =  temp_value - offAccY;
+		accY = (float)  temp_value * gainAccx2g * EARTH_GRAVITY_MS2;
+	}
+
+	temp_value = (((int16_t)buffer[5]) << 8) | buffer[4];
+	if (temp_value & (1<<(16-1)))
+		temp_value  = temp_value - (1<<16);
+	if (gs){
+	 	//temp_value = temp_value - offAccZ;	
+		accZ = (float)  temp_value * gainAccx2g * EARTH_GRAVITY_MS2;
+	}
+	return 1;
+}
+
+
 
 void ADXL345(void)
 {
@@ -58,7 +108,6 @@ void ADXL345(void)
  	int gUnits = 1;
 
     __u8 reg = 0x32; /* Device register to access */
-    int res = 0;
     int N = 10;
 
     char values[6];
@@ -80,7 +129,7 @@ void ADXL345(void)
 			// Read and compose 16 bytes long (two-compliment) 
 			// acceleration
 		}
-		
+			
 	    //if (values[4] < 0 &&  values[5]<0) {
 		if (values < 0) {
 		printf("Fail");
@@ -92,35 +141,84 @@ void ADXL345(void)
 	}
 }
 
-/*
- *	Interprets the 16 bit value a (positive or negative) two's
- *  complement
- *  PARAM
- * 		@CHAR array of bytes	
- *		@BOOL converts to G if true
+/* 
+ *	Computes the distance between two points_ euclidean norm
+ *  PARAM 
+ *  	@FLOAT point A
+ *		@FLOAT point B
+ *  RETURNS
+ *		@FLOAT distance
  */
-int fromBuffer2Acc(char buffer[],int gs)
-{
-	temp_value = (((int16_t)buffer[1]) << 8) | buffer[0];
-	if (temp_value & (1<<16-1))
-		temp_value  = temp_value - (1<<16);
-	if (gs)
-		accX = (float)  temp_value * gainAccx2g * EARTH_GRAVITY_MS2;
-
-	temp_value = (((int16_t)buffer[3]) << 8) | buffer[2];
-	if (temp_value & (1<<16-1))
-		temp_value  = temp_value - (1<<16);
-	if (gs)
-		accY = (float)  temp_value * gainAccx2g * EARTH_GRAVITY_MS2;
-
-	temp_value = (((int16_t)buffer[5]) << 8) | buffer[4];
-	if (temp_value & (1<<16-1))
-		temp_value  = temp_value - (1<<16);
-	if (gs)
-		accZ = (float)  temp_value * gainAccx2g * EARTH_GRAVITY_MS2;
-	
-	return 1;
+double dist(float a,float b) {
+   return sqrt( (a*a)+(b*b));
 }
+
+
+/* 
+ *	Converts from radians to degree
+ *  PARAM 
+ *  	@FLOAT radians
+ *  RETURNS
+ *		@FLOAT degree
+ */
+float toDegree(float radians) {
+	float deg = radians * (180.0 / M_PI);
+	return deg;
+}
+
+/*
+ *	Computes angular position along the X axis from acc data
+ *  PARAM
+ * 		@FLOAT X,Y,Z	
+ *	RETURNS
+ *		@FLOAT Roll
+ */
+float getXRotation(float acc[3])
+{
+	float radians = atan2(acc[Y_INDEX], (double) dist(acc[X_INDEX],acc[Z_INDEX]));
+	return toDegree(radians);
+}
+
+/*
+ *	Computes roll angle from a trigonometric approach
+ *  PARAM
+ * 		@FLOAT X,Y,Z	
+ *	RETURNS
+ *		@FLOAT Roll
+ */
+float getRoll(float acc[])
+{
+	float roll = getXRotation(acc);
+	return roll;
+}
+
+/*
+ *	Computes angular position along the Y axis from acc data
+ *  PARAM
+ * 		@FLOAT X,Y,Z	
+ *	RETURNS
+ *		@FLOAT Pitch
+ */
+float getYRotation(float acc[])
+{
+	float radians = atan2(acc[X_INDEX], (double) dist(acc[Y_INDEX],acc[Z_INDEX]));
+	return toDegree(radians);
+}
+
+/*
+ *	Computes pitch angle from a trigonometric approach
+ *  PARAM
+ * 		@FLOAT X,Y,Z	
+ *	RETURNS
+ *		@FLOAT Roll
+ */
+float getPitch(float acc[])
+{
+	float pitch = getYRotation(acc);
+	return pitch;
+}
+
+
 
 int main()
 {
