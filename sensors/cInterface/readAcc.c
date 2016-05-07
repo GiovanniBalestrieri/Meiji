@@ -95,8 +95,8 @@ void ADXL345(void)
     read_value = i2c_smbus_write_byte_data(file,i2c_dev_reg_addr,0x8);
     if (read_value < 0)
     {
-	perror("I2C Write Operation failed.");
-	exit(4);	
+		perror("I2C Write Operation failed.");
+		exit(4);	
     }
 
     /* Set resolution */
@@ -112,8 +112,6 @@ void ADXL345(void)
 
     char values[6];
 	
-	__s32 storage;	
-
 	for (int i = 0;i<N;i++)
 	{
 		values[0] = i2c_smbus_read_byte_data(file, reg);
@@ -123,20 +121,25 @@ void ADXL345(void)
 	  	values[4] = i2c_smbus_read_byte_data(file, 0x36);
 	  	values[5] = i2c_smbus_read_byte_data(file, 0x37);
 
-		if (storage<0) {
+		if (values<0) {
 			// #Error Handling
+			printf("Fail!!");
 		} else {
 			// Read and compose 16 bytes long (two-compliment) 
 			// acceleration
+			fromBuffer2Acc(values,gUnits);
+	    	printf(" Data: %f \t %f \t %f\n",accX,accY,accZ);
 		}
-			
+		
+		/*
 	    //if (values[4] < 0 &&  values[5]<0) {
 		if (values < 0) {
-		printf("Fail");
+			printf("Fail");
 	    } else {
 			fromBuffer2Acc(values,gUnits);
 	    	printf(" Data: %f \t %f \t %f\n",accX,accY,accZ);
-	   }
+	    }
+		*/
  	   sleep(1);
 	}
 }
