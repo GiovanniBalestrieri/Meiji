@@ -74,10 +74,6 @@ void ADXL345(void)
 	  	values[4] = i2c_smbus_read_byte_data(file, 0x36);
 	  	values[5] = i2c_smbus_read_byte_data(file, 0x37);
 
-	  	// print out result
-	  	//printf("Values: X MSB: %d, X LSB: %d, Y MSB: %d, Y LSB: %d, Z MSB: %d, Z LSB: %d\n",
-    	//values[0],values[1],values[2],values[3],values[4],values[5]);
-
 		if (storage<0) {
 			// #Error Handling
 		} else {
