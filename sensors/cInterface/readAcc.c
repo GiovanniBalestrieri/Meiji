@@ -24,6 +24,8 @@
 
 
 float accX,accY,accZ;
+float acc[3];
+float roll,pitch,yaw;
 int temp_value;
 
 #ifndef M_PI 
@@ -66,83 +68,6 @@ int fromBuffer2Acc(char buffer[],int gs)
 }
 
 
-
-void ADXL345(void)
-{
-    int file;
-    char filename[40];
-    int addr = 0x53;        // The I2C address of the ADC
-    int adapter_nr = 1; /* probably dynamically determined */
-  
-    snprintf(filename, 19, "/dev/i2c-%d", adapter_nr);
-    file = open(filename, O_RDWR);
-    if (file < 0)
-    {
-        printf("Failed to open the bus.");
-		exit(1);
-    }	
-
-    if (ioctl(file,I2C_SLAVE,addr) < 0) {
-        printf("Failed to acquire bus access and/or talk to slave.\n");
-        exit(1);
-    }
-	
-    /* Wake ADXL up
-     * ADXL345 POWER_CTL Register */
-    int i2c_dev_reg_addr = 0x2D;
- 
-    __s32 read_value;
-    read_value = i2c_smbus_write_byte_data(file,i2c_dev_reg_addr,0x8);
-    if (read_value < 0)
-    {
-		perror("I2C Write Operation failed.");
-		exit(4);	
-    }
-
-    /* Set resolution */
-    __u8 adxl345_res_ctl = 0x31;
-    __u8 data_format = 0;
-
-    i2c_smbus_write_byte_data(file,adxl345_res_ctl,data_format);
-    sleep(0.500);
- 	int gUnits = 1;
-
-    __u8 reg = 0x32; /* Device register to access */
-    int N = 10;
-
-    char values[6];
-	
-	for (int i = 0;i<N;i++)
-	{
-		values[0] = i2c_smbus_read_byte_data(file, reg);
-	  	values[1] = i2c_smbus_read_byte_data(file, 0x33);
-		values[2] = i2c_smbus_read_byte_data(file, 0x34);
-	 	values[3] = i2c_smbus_read_byte_data(file, 0x35);
-	  	values[4] = i2c_smbus_read_byte_data(file, 0x36);
-	  	values[5] = i2c_smbus_read_byte_data(file, 0x37);
-
-		if (values<0) {
-			// #Error Handling
-			printf("Fail!!");
-		} else {
-			// Read and compose 16 bytes long (two-compliment) 
-			// acceleration
-			fromBuffer2Acc(values,gUnits);
-	    	printf(" Data: %f \t %f \t %f\n",accX,accY,accZ);
-		}
-		
-		/*
-	    //if (values[4] < 0 &&  values[5]<0) {
-		if (values < 0) {
-			printf("Fail");
-	    } else {
-			fromBuffer2Acc(values,gUnits);
-	    	printf(" Data: %f \t %f \t %f\n",accX,accY,accZ);
-	    }
-		*/
- 	   sleep(1);
-	}
-}
 
 /* 
  *	Computes the distance between two points_ euclidean norm
@@ -222,9 +147,89 @@ float getPitch(float acc[])
 }
 
 
+int ADXL345(void)
+{
+    int file;
+    char filename[40];
+    int addr = 0x53;        // The I2C address of the ADC
+    int adapter_nr = 1; /* probably dynamically determined */
+  
+    snprintf(filename, 19, "/dev/i2c-%d", adapter_nr);
+    file = open(filename, O_RDWR);
+    if (file < 0)
+    {
+        printf("Failed to open the bus.");
+		exit(1);
+    }	
+
+    if (ioctl(file,I2C_SLAVE,addr) < 0) {
+        printf("Failed to acquire bus access and/or talk to slave.\n");
+        exit(1);
+    }
+	
+    /* Wake ADXL up
+     * ADXL345 POWER_CTL Register */
+    int i2c_dev_reg_addr = 0x2D;
+ 
+    __s32 read_value;
+    read_value = i2c_smbus_write_byte_data(file,i2c_dev_reg_addr,0x8);
+    if (read_value < 0)
+    {
+		perror("I2C Write Operation failed.");
+		exit(4);	
+    }
+
+    /* Set resolution */
+    __u8 adxl345_res_ctl = 0x31;
+    __u8 data_format = 0;
+
+    i2c_smbus_write_byte_data(file,adxl345_res_ctl,data_format);
+    sleep(0.500);
+	
+	return file;
+
+}
+
+void readAdxl(int file)
+{
+	/* Device register to access */
+    __u8 reg = 0x32; 
+ 	int gUnits = 1;
+    char values[6];
+
+	/* Read bytes from sensor */
+	values[0] = i2c_smbus_read_byte_data(file, reg);
+  	values[1] = i2c_smbus_read_byte_data(file, 0x33);
+	values[2] = i2c_smbus_read_byte_data(file, 0x34);
+ 	values[3] = i2c_smbus_read_byte_data(file, 0x35);
+  	values[4] = i2c_smbus_read_byte_data(file, 0x36);
+  	values[5] = i2c_smbus_read_byte_data(file, 0x37);
+
+	if (values<0) {
+		// #Error Handling
+		printf("Fail!!");
+	} else {
+		// Read and compose 16 bytes long (two-compliment) 
+		// acceleration
+		fromBuffer2Acc(values,gUnits);
+		acc[0] = accX;
+		acc[1] = accY;
+		acc[2] = accZ;
+		roll = getRoll(acc);
+		pitch = getPitch(acc);
+	}
+    usleep(100000);
+}
 
 int main()
 {
-	ADXL345();	
+	int adxl345 = ADXL345();	
+    int N = 100;
+	for (int i = 0;i<N;i++)
+	{
+		readAdxl(adxl345);
+		printf("\nData: %f \t %f \t %f",accX,accY,accZ);
+		printf("\tRoll: %f \t Pitch: %f \n",roll,pitch);
+	}
 	return 0;
 }
