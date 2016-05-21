@@ -1,0 +1,410 @@
+SCALETTA LEZIONE SOSERT E13 -- 19 novembre 2015
+
+1 Cambio di timer per il tick di sistema
+  1.1 La scheda BBB dispone di un piu' affidabile oscillatore interno a 32768 Hz
+      basato su un quarzo
+  1.2 Il timer "DMTimer_1ms" puo' utilizzare questo oscillatore
+  1.3 In piu' dispone di un meccanismo di correzione periodico della lunghezza
+      del "tick" per tenere conto degli errori di troncamento introdotti nella
+      programmazione del registro contatore
+  1.4 Dettagli in AM335x TRM 20.2.3.1.1 e 20.2.4
+  1.5 Cambio nome di bbb_timer.h in bbb_dmtimer0.h
+      1.5.1 Rimuovere definizione macro HZ e TICK_TLDR da bbb_dmtimer0.h
+      1.5.2 Rinominare le macro XXX_IT_FLAG in DMT0_XXX_IT_FLAG
+  1.6 Creare un file bbb_dmtimer1.h
+      +-----------------------------------------------------+
+      |#define Timer1_Freq 32768    /* Hz */                |
+      |#define Timer1_IRQ 67                                |
+      |#define Timer1_IRQ_Bank (Timer1_IRQ/32)              |
+      |#define Timer1_IRQ_Bit  (Timer1_IRQ%32)              |
+      |#define Timer1_IRQ_Mask (1u<<Timer1_IRQ_Bit)         |
+      |#define DMTIMER1_BASE        0x44e31000              |
+      |iomemdef(DMTIMER1_TIDR,      DMTIMER1_BASE + 0x00);  |
+      |iomemdef(DMTIMER1_TIOCP_CFG, DMTIMER1_BASE + 0x10);  |
+      |iomemdef(DMTIMER1_TISTAT,    DMTIMER1_BASE + 0x14);  |
+      |iomemdef(DMTIMER1_TISR,      DMTIMER1_BASE + 0x18);  |
+      |iomemdef(DMTIMER1_TIER,      DMTIMER1_BASE + 0x1c);  |
+      |iomemdef(DMTIMER1_TWER,      DMTIMER1_BASE + 0x20);  |
+      |iomemdef(DMTIMER1_TCLR,      DMTIMER1_BASE + 0x24);  |
+      |iomemdef(DMTIMER1_TCRR,      DMTIMER1_BASE + 0x28);  |
+      |iomemdef(DMTIMER1_TLDR,      DMTIMER1_BASE + 0x2c);  |
+      |iomemdef(DMTIMER1_TTGR,      DMTIMER1_BASE + 0x30);  |
+      |iomemdef(DMTIMER1_TWPS,      DMTIMER1_BASE + 0x34);  |
+      |iomemdef(DMTIMER1_TMAR,      DMTIMER1_BASE + 0x38);  |
+      |iomemdef(DMTIMER1_TCAR1,     DMTIMER1_BASE + 0x3c);  |
+      |iomemdef(DMTIMER1_TSICR,     DMTIMER1_BASE + 0x40);  |
+      |iomemdef(DMTIMER1_TCAR2,     DMTIMER1_BASE + 0x44);  |
+      |iomemdef(DMTIMER1_TPIR,      DMTIMER1_BASE + 0x48);  |
+      |iomemdef(DMTIMER1_TNIR,      DMTIMER1_BASE + 0x4c);  |
+      |iomemdef(DMTIMER1_TCVR,      DMTIMER1_BASE + 0x50);  |
+      |iomemdef(DMTIMER1_TOCR,      DMTIMER1_BASE + 0x54);  |
+      |iomemdef(DMTIMER1_TOWR,      DMTIMER1_BASE + 0x58);  |
+      |#define DMT1_TCAR_IT_FLAG    0x4                     |
+      |#define DMT1_OVF_IT_FLAG     0x2                     |
+      |#define DMT1_MAT_IT_FLAG     0x1                     |
+      +-----------------------------------------------------+
+  1.7 Creare un nuovo file bbb_timer.h:
+      +-----------------------------------------------------+
+      |#include "bbb_dmtimer0.h"                            |
+      |#include "bbb_dmtimer1.h"                            |
+      |#define HZ          1000 /* Tick frequency (Hz) */   |
+      |#define TICK_TLDR   (0xffffffffu-(Timer1_Freq/HZ)+1) |
+      |#define CONFIG_TICK_ADJUST 1                         |
+      |#define TICK_V0     (Timer1_Freq/HZ)                 |
+      |#define TICK_V1     (Timer1_Freq*1000*(1000/HZ))     |
+      |#define TICK_TPIR   (((TICK_V0+1)*1000000ul)-TICK_V1)|
+      |#define TICK_TNIR   ((TICK_V0*1000000ul)-TICK_V1)    |
+      +-----------------------------------------------------+
+
+2 Inizializzazione di DMTimer1 e calibrazione del loop delay:
+  2.1 Scrivere la funzione calibrate_udelay() in delay.c:
+      +--------------------------------------------------------------+
+      |unsigned int loops_per_usec;                                  |
+      |#define LOOPS_PER_USEC_SHIFT 10                               |
+      |#define CALIBRATE_LOOP_DELAY 10000000ul                       |
+      |void calibrate_udelay(void)                                   |
+      |{                                                             |
+      |    unsigned long t, d = CALIBRATE_LOOP_DELAY;                |
+      |    irq_disable();                                            |
+      |    /* start clocking the DMTimer1 module */                  |
+      |    iomem(CM_WKUP_TIMER1_CLKCTRL) = 0x2;                      |
+      |    __memory_barrier();                                       |
+      |    /* give enough time to hardware circuits */               |
+      |    loop_delay(10000);                                        |
+      |    /* select high precision 32768 Hz oscillator */           |
+      |    iomem(CM_DPLL_CLKSEL_TIMER1MS_CLK) = 4;                   |
+      |    __memory_barrier();                                       |
+      |    /* soft reset the module */                               |
+      |    iomem(DMTIMER1_TIOCP_CFG) = 0x2;                          |
+      |    /* wait for reset completed */                            |
+      |    while ((DMTIMER1_TISTAT & 0x1) == 0)                      |
+      |        __memory_barrier();                                   |
+      |    /* disable interrupts */                                  |
+      |    iomem(DMTIMER1_TIER) = 0;                                 |
+      |    __memory_barrier();                                       |
+      |    /* start the TIMER counter */                             |
+      |    iomem(DMTIMER1_TCLR) = 0x1;                               |
+      |    __memory_barrier();                                       |
+      |    while (d-- > 0)                                           |
+      |        __memory_barrier();                                   |
+      |    /* TCRR was just reset to zero,                           |
+      |     * and it wraps around in approx 36 hours.                |
+      |     * There should be no risk of overflow here */            |
+      |    t = iomem(DMTIMER1_TCRR);                                 |
+      |    __memory_barrier();                                       |
+      |    irq_enable();                                             |
+      |    loops_per_usec = (((CALIBRATE_LOOP_DELAY/1000000ul)       |
+      |                      *Timer1_Freq)<<LOOPS_PER_USEC_SHIFT)    |
+      |                      / (float) t;                            |
+      |    puts("Calibration: loops_per_usec=");                     |
+      |    putf(loops_per_usec/(float)(1u<<LOOPS_PER_USEC_SHIFT), 2);|
+      |    putnl();                                                  |
+      |}                                                             |
+      +--------------------------------------------------------------+
+  2.2 Scrivere la funzione udelay():
+      +--------------------------------------------------------------+
+      |void udelay(unsigned int usec)                                |
+      |{                                                             |
+      |    unsigned long loops =                                     |
+      |                 (usec*loops_per_usec)>>LOOPS_PER_USEC_SHIFT; |
+      |    loop_delay(loops);                                        |
+      |}                                                             |
+      +--------------------------------------------------------------+
+  2.3 Aggiungere definizioni per registri di controllo in bbb_cm.h:
+      +--------------------------------------------------------+
+      |#define CM_WKUP                       0x44e00400        |
+      |iomemdef(CM_WKUP_CLKSTCTRL,           CM_WKUP + 0x00);  |
+      |iomemdef(CM_WKUP_TIMER1_CLKCTRL,      CM_WKUP + 0xc4);  |
+      |#define CM_DPLL                       0x44e00500        |
+      |iomemdef(CM_DPLL_CLKSEL_TIMER1MS_CLK, CM_DPLL + 0x28);  |
+      +--------------------------------------------------------+
+
+3 Modificare la funzione init_ticks() in tick.c:
+  +---------------------------------------------------------+
+  |void init_ticks(void)                                    |
+  |{                                                        |
+  |    irq_disable();                                       |
+  |    if (register_isr(Timer1_IRQ, isr_tick)) {            |
+  |        irq_enable();                                    |
+  |        puts("Cannot register Timer1_IRQ!\n");           |
+  |        panic0();                                        |
+  |    }                                                    |
+  |    iomem(DMTIMER1_TLDR) = TICK_TLDR;                    |
+  |    iomem(DMTIMER1_TIER) = DMT1_OVF_IT_FLAG;             |
+  |#if CONFIG_TICK_ADJUST                                   |
+  |    iomem(DMTIMER1_TPIR) = TICK_TPIR;                    |
+  |    iomem(DMTIMER1_TNIR) = TICK_TNIR;                    |
+  |#else                                                    |
+  |    iomem(DMTIMER1_TPIR) = 0;                            |
+  |    iomem(DMTIMER1_TNIR) = 0;                            |
+  |#endif                                                   |
+  |    iomem(INTC_ILR_BASE + Timer1_IRQ) = 0x0;             |
+  |    iomem_high(INTC_MIR_CLEAR_BASE + 8 *                 |
+  |                       Timer1_IRQ_Bank,|Timer1_IRQ_Mask);|
+  |    iomem(DMTIMER1_TCLR) = 0x3; /* Auto-reload, start */ |
+  |    loop_delay(10000);                                   |
+  |    iomem(DMTIMER1_TTGR) = 1;                            |
+  |    irq_enable();                                        |
+  |}                                                        |
+  +---------------------------------------------------------+
+  3.1 Modificare la funzione _init() in init.c:
+      +--------------------+
+      |[...]               |
+      |init_taskset();     |
+      |calibrate_udelay(); |
+      |init_ticks();       |
+      |[...]               |
+      +--------------------+
+  3.2 Aggiungere i prototipi di calibrate_udelay() e udelay() in comm.h
+
+4 Modificare la funzione isr_ticks() in tick.c:
+  +---------------------------------------------+
+  |static void isr_tick(void)                   |
+  |{                                            |
+  |    iomem(DMTIMER1_TISR) = DMT1_OVF_IT_FLAG; | <<<
+  |    ++ticks;                                 |
+  |    gpio1_toggle_mask(1<<3);                 |
+  |    check_periodic_tasks();  		|
+  |}                                            |
+  +---------------------------------------------+
+
+5 Misurazione della frequenza del tick periodico
+  5.1 La frequenza misurata oscilla periodicamente
+      tra 496 Hz e 504 Hz
+  5.2 Stiamo osservando l'effetto della compensazione
+      della durata del tick periodico effettuata dal
+      DMTimer1
+  5.3 Se ricompiliamo disabilitando il meccanismo 
+      (CONFIG_TICK_ADJUST definito a 0 in bbb_timer.h)
+      la frequenza osservata e' tra 511.9 Hz e 512 Hz
+      5.3.1 Il tick ha una lunghezza all'incirca di 980 usec
+
+6 Analisi del jitter del tick periodico
+  6.1 Impostare l'oscilloscopio come segue:
+      6.1.1 Trigger 'normale', sul fronte di salita
+      6.1.2 Spostare il trigger all'indietro fino a visualizzare il fronte di
+            discesa al centro dello reticolo
+      6.1.3 Scala dei tempi, div = 500 ns o 250 ns
+      6.1.4 Persistenza del display all'infinito
+  6.2 Misurare tramite il cursore l'ampiezza dell'area in cui cade il fronte
+      di discesa
+      6.3.1 La maggior parte dei tick ha un jitter di 580 nanosecondi
+      6.3.2 Accuratezza del tick: errore inferiore al 0.6 per mille
+  6.4 Possibili cause del jitter:
+      6.4.1 Cache dei dati (D-Cache)
+      6.4.2 Cache delle istruzioni (I-Cache)
+      6.4.3 Memory Management Unit (MMU)
+      6.4.4 Operazioni effettuate dalla CPU in hypervisor modes
+
+7 Analisi della precisione della funzione udelay()
+  7.1 Poiche' e' basata su un busy loop della CPU, dobbiamo disabilitare
+      le interruzioni per avere misurazioni accurate
+  7.2 Inseriamo in main() il seguente codice:
+      +---------------------------+
+      |banner();                  |
+      |irq_disable();             |
+      |for (;;) {                 |
+      |   udelay(100);            |
+      |   gpio1_toggle_mask(1<<3);|
+      |   udelay(100);            |
+      |   gpio1_toggle_mask(1<<3);|
+      |}                          |
+      +---------------------------+
+      7.2 Effettivamente la durata del ritardo e' di 100 usec
+      7.3 Il jitter e' di 200 nsec
+
+8 Analisi delle prestazioni dello scheduler a priorita' fissa
+  8.1 Rimuovere il codice di misurazione della udelay() da main()
+  8.2 Rimuovere da isr_tick() gpio1_toggle_mask()
+  8.3 Modificare main() per creare un task 
+      8.2.1 Periodo 1 tick e scadenza relativa 1 tick
+      8.2.2 Job accende o spegne una linea di uscita ad ogni esecuzione
+  +-----------------------------------------------------------------------+
+  |static void drive_gpio(void *arg __attribute((unused)))                |
+  |{                                                                      |
+  |    static int state = 0;                                              |
+  |    if (state & 1)                                                     |
+  |        gpio1_on(3);                                                   |
+  |    else                                                               |
+  |        gpio1_off(3);                                                  |
+  |    ++state;                                                           |
+  |}                                                                      |
+  |[...]                                                                  |
+  |if (create_task(drive_gpio, NULL, 1, 1, 1, "drive_gpio") == -1 ) {     |
+  |    puts("ERROR: cannot create task drive_gpio\n");                    |
+  |    panic1();                                                          |
+  |}                                                                      |
+  +-----------------------------------------------------------------------+
+  8.3 Risultato: periodo 1020 Hz (980 usec), jitter 560 nanosecondi
+
+*** Implementazione della politica di schedulazione EDF ***
+
+9 Integrazione con lo scheduler a priorita' fissa
+  9.1 I task EDF avranno sempre priorita' maggiore dei task a priorita' fissa
+  9.2 Modifiche al descrittore di task per il supporto a EDF:
+      9.2.1 Campo 'priority': nel caso di task a priorita' fissa (FPR),
+             era la priorita' del task; nel caso di task EDF, indica la
+             priorita' del job in esecuzione o primo job pendente
+      9.2.2 Nuovo campo 'deadline': indica la scadenza relativa del task EDF
+            9.2.2.1 Vale sempre 0 per task a priorita' fissa
+                    +------------------------------------------+
+                    |struct task {                             |
+                    |    int valid;                            |
+                    |    job_t job;                            |
+                    |    void *arg;                            |
+                    |    unsigned long releasetime;            |
+                    |    unsigned long released;               |
+                    |    unsigned long period;                 
+                    |    unsigned long priority;               | 
+                    |    unsigned long deadline;               |  <<<
+                    |    const char *name;                     |
+                    |    unsigned long sp;                     |
+                    |    unsigned long regs[8];                |
+                    |};                                        |
+                    +------------------------------------------+
+  9.3 Modifiche alla funzione create_tasks() in tasks.c:
+      9.3.1 Cambio nome argomento: da 'priority' a 'prio_dead' (per indicare
+            che in caso di FPR e' la priorita' statica, mentre in caso di EDF
+            e' la scadenza relativa)
+      9.3.2 Aggiunto un parametro intero 'type' per indicare se il task
+            da creare e' FPR oppure EDF
+            9.3.2.1 Aggiungere due macro FPR e EDF a comm.h:
+                    +------------------------------------------+
+                    |#define FPR 0                             |
+                    |#define EDF 1                             |
+                    +------------------------------------------+
+            9.3.2.2 Modificare il prototipo di create_task() in comm.h
+      9.3.3 Modificare l'inizializzazione del campo 'priority':
+            +--------------------------------------------------+
+            |t->releasetime = ticks + delay;                   |
+            |if (type == EDF) {                                |
+            |        if (prio_dead == 0)                       |
+            |                return -1;                        |
+            |        t->priority = prio_dead + t->releasetime; |
+            |        t->deadline = prio_dead;                  |
+            |} else {                                          |
+            |        t->priority = prio_dead;                  |
+            |        t->deadline = 0;                          |
+            |}                                                 |
+            +--------------------------------------------------+
+  9.4 Modifiche alla funzione select_best_task() in sched.c:
+      9.4.1 Aggiungiamo un flag 'edf': rimane a zero finche' non viene
+            trovato un job pendente per un task EDF
+      9.4.2 Il controllo della priorita' dipende dal valore di 'edf':
+            +--------------------------------------------------+
+            |if (edf) {                                        |
+            |    if (f->deadline == 0)                         |
+            |        continue;                                 |
+            |    if (time_before(f->priority, maxprio)) {      |
+            |        maxprio = f->priority;                    |
+            |        best = f;                                 |
+            |    }                                             |
+            |} else {                                          |
+            |    if (f->deadline != 0) {                       |
+            |        edf = 1;                                  |
+            |        maxprio = f->priority;                    |
+            |        best = f;                                 |
+            |        continue;                                 |
+            |    }                                             |
+            |    if (f->priority < maxprio) {                  |
+            |        maxprio = f->priority;                    |
+            |        best = f;                                 |
+            |    }                                             |
+            |}                                                 |
+            +--------------------------------------------------+
+  9.5 Aggiornamento della priorita' dei job EDF
+      9.5.1 Non puo' essere fatto in check_periodic_tasks() perche' il
+            campo 'priority' del descrittore di task e' unico e fa riferimento
+            al primo job che deve essere ancora eseguito del task
+      9.5.2 Per il primo job di un task nessun problema: la priorita' corretta
+            e' impostata da create_task()
+      9.5.2 Modifichiamo la funzione task_entry_point() in tasks.c per
+            9.5.2.1 controllare il rispetto della deadline
+            9.5.2.2 aggiornare il campo 'priority' per il prossimo job
+                    +--------------------------------------------------+
+                    |--t->released;                                    |
+                    |if (t->deadline != 0) {                           |
+                    |    if (time_after(ticks, t->priority)) {         |
+                    |        puts("EDF tasks '");                      |
+                    |        puts(t->name);                            |
+                    |        puts("' deadline miss!\n");               |
+                    |    }                                             |
+                    |    t->priority += t->period;                     |
+                    |}                                                 |
+                    |_sys_schedule();                                  |
+                    +--------------------------------------------------+
+  9.6 Test della schedulazione EDF
+      9.6.1 Modificare le invocazioni di create_task in main() per aggiungere
+             il tipo 'FPR'
+      9.6.2 Modificare il task 'watchdog' da FPR a EDF
+             +------------------------------------------------------------+
+             |#define WDT_Ticks   (HZ*30)                                 |
+             |#define WDT_RelDeadline (WDT_Ticks-1)                       |
+             |[...]                                                       |
+             |void init_watchdog(void)                                    |
+             |{                                                           |
+             |    if (create_task(rearm_watchdog, NULL, WDT_Ticks, 1,     |
+             |                WDT_RelDeadline, EDF, "watchdog") == -1) {  |
+             |        puts("ERROR: cannot create task \"watchdog\"\n");   |
+             |        panic0();                                           |
+             |    }                                                       |
+             |}                                                           |
+             +------------------------------------------------------------+
+
+10 Analisi del WCET di una funzione
+  10.1 Modificare main() per rimuovere il task drive_gpio
+  10.2 Scrittura della funzione factor_ticks():
+  +--------------------------------------------------------------+
+  |const unsigned long small_primes[] =                          |
+  |    { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, |
+  |       53, 59, 61, 67, 71, 73, 79, 83, 89, 97 };              |
+  |void factor_ticks(void)                                       |
+  |{                                                             |
+  |    unsigned long v = ticks;                                  |
+  |    int i;                                                    |
+  |    putu(v);                                                  |
+  |    puts(": ");                                               |
+  |    i = 0;                                                    |
+  |    while (v > 1 && i < 25) {                                 |
+  |        unsigned long w = v / small_primes[i];                |
+  |        if (v == w * small_primes[i]) {                       |
+  |            putu(small_primes[i]);                            |
+  |            putc(' ');                                        |
+  |            v = w;                                            |
+  |            continue;                                         |
+  |        }                                                     |
+  |        ++i;                                                  |
+  |    }                                                         |
+  |    if (v > 1) {                                              |
+  |        putc('[');                                            |
+  |        putu(v);                                              |
+  |        putc(']');                                            |
+  |    }                                                         |
+  |    putnl();                                                  |
+  |}                                                             |
+  +--------------------------------------------------------------+
+  10.3 Creare un task periodico FPR con job factor_ticks(), periodo 17 e
+       priorita' 1
+  10.4 Non compila perche' le divisioni intere non sono implementate da ARM
+      10.4.1 Modificare il Makefile in modo da includere la libreria di codice
+             contenente le divisioni intere:
+      +-------------------------------------------------------------------+
+      |GCCLIB=$(shell $(CC) -print-libgcc-file-name)                      |
+      |[...]                                                              |
+      |$(TARGET).elf: $(AOBJS) $(COBJS) $(TARGET).lds                     |
+      |  (LD) -nostdlib -T $(TARGET).lds -o $@ $(AOBJS) $(COBJS) $(GCCLIB)|
+      +-------------------------------------------------------------------+
+      12.4.2 Aggiungere una funzione nulla raise() a main.c
+      +-------------------------------------------------------------------+
+      |int raise(int n) { return n; }                                     |
+      +-------------------------------------------------------------------+
+             12.4.2.1 Le funzioni di libreria incluse possono invocare
+                      raise() per inviare un segnale al processo in
+                      esecuzione -- ma in SERT non esistono segnali
+  10.5 Provare la funzione
+  10.6 Aggiungere gpio1_on(3) all'inizio della funzione e gpio1_off(3)
+      al termine
+  10.7 Analizzare il segnale per determinare il tempo d'esecuzione
+      10.7.1 Risultato: WCET misurato 3,860 millisecondi
+
+=====
