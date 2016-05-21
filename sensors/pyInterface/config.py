@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # Filename: config.py
 
-VERSION = 0.1
+VERSION = 0.3
 SHUTDOWN = 0
 
 def init():

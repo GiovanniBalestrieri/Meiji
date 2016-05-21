@@ -77,6 +77,7 @@ class SensorITG3200(object):
 			time.sleep(delay)
 		(self.zeroX,self.zeroY,self.zeroZ) = (sumX/samples,sumY/samples,sumZ/samples)
 		print "Gyro calibration ... [Ok]"
+
 		return (self.zeroX,self.zeroY,self.zeroZ)
 		
     def default_init(self):
@@ -105,3 +106,4 @@ if __name__ == '__main__':
 	print "Bias: x " ,zeroX, " y ", zeroY, " z ", zeroZ
     gx, gy, gz = sensor.read_data_calib()
     print gx, gy, gz
+
