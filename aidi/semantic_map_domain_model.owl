@@ -1,0 +1,2577 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY semantic_mapping_domain_model "http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.w3.org/2002/07/owl"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:semantic_mapping_domain_model="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <Ontology rdf:about="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model">
+        <semantic_mapping_domain_model:name xml:lang="en">Domain Model of the Semantic Map</semantic_mapping_domain_model:name>
+    </Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#name -->
+
+    <AnnotationProperty rdf:about="&semantic_mapping_domain_model;name">
+        <rdfs:domain rdf:resource="&owl;Thing"/>
+    </AnnotationProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#connects -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;connects">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasAffordance -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;hasAffordance">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasAlternativeReference -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;hasAlternativeReference">
+        <rdfs:subPropertyOf rdf:resource="&semantic_mapping_domain_model;hasLexicalReference"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasLexicalReference -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;hasLexicalReference">
+        <rdfs:subPropertyOf rdf:resource="&semantic_mapping_domain_model;hasProperty"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasPart -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;hasPart">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasPosition -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;hasPosition">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&semantic_mapping_domain_model;hasSpatialProperty"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasPreferredReference -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;hasPreferredReference">
+        <rdfs:subPropertyOf rdf:resource="&semantic_mapping_domain_model;hasLexicalReference"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasProperty -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;hasProperty">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasShape -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;hasShape">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&semantic_mapping_domain_model;hasSpatialProperty"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasSize -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;hasSize">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&semantic_mapping_domain_model;hasSpatialProperty"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasSpatialProperty -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;hasSpatialProperty">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&semantic_mapping_domain_model;hasProperty"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasSubLocation -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;hasSubLocation">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&semantic_mapping_domain_model;hasPart"/>
+        <inverseOf rdf:resource="&semantic_mapping_domain_model;isSubLocationOf"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasSubPart -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;hasSubPart">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&semantic_mapping_domain_model;hasPart"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#isPartOf -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;isPartOf">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#isSubLocationOf -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;isSubLocationOf">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <rdfs:subPropertyOf rdf:resource="&semantic_mapping_domain_model;isPartOf"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#isSubPartOf -->
+
+    <ObjectProperty rdf:about="&semantic_mapping_domain_model;isSubPartOf">
+        <rdf:type rdf:resource="&owl;IrreflexiveProperty"/>
+        <inverseOf rdf:resource="&semantic_mapping_domain_model;hasSubPart"/>
+        <rdfs:subPropertyOf rdf:resource="&semantic_mapping_domain_model;isPartOf"/>
+    </ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_coordinates_x -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_coordinates_x"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_coordinates_y -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_coordinates_y"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_coordinates_z -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_coordinates_z"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_size_x -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_size_x">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_size_y -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_size_y">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_size_z -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_size_z">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_1_1 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_1_1">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_1_2 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_1_2">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_1_3 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_1_3">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_1_4 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_1_4">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_2_1 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_2_1">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_2_2 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_2_2">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_2_3 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_2_3">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_2_4 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_2_4">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_3_1 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_3_1">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_3_2 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_3_2">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_3_3 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_3_3">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_3_4 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_3_4">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_4_1 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_4_1">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_4_2 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_4_2">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_4_3 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_4_3">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_transformation_matrix_element_4_4 -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;float_transformation_matrix_element_4_4">
+        <rdfs:range rdf:resource="&xsd;float"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#lexicalReference -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;lexicalReference"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#name -->
+
+    <DatatypeProperty rdf:about="&semantic_mapping_domain_model;name">
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Abat_Jour -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Abat_Jour">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Accessories"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Abstract_Thing -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Abstract_Thing"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Accessories -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Accessories">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Air_Conditioning -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Air_Conditioning">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;HVAC_Fixture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#AlternativeReference -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;AlternativeReference">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;LexicalReference"/>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;lexicalReference"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;string"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <disjointWith rdf:resource="&semantic_mapping_domain_model;PreferredReference"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Answare_Machine -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Answare_Machine">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Apple -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Apple">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Fruit"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Appliance -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Appliance">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Aspirin -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Aspirin">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Drug"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Bag -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Bag">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Container"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Bathroom -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Bathroom">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Room"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Bathtub -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Bathtub">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Plumbing_Fixture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Bed -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Bed">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Bedroom -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Bedroom">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Room"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Bedstand -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Bedstand">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Beer -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Beer">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Drink"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Bench -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Bench">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Bin -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Bin">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Container"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Black -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Black">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Misc"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Blinds -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Blinds">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Connecting_Architecture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Blue_Cover -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Blue_Cover">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Misc"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Board -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Board">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Body_Part -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Body_Part">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Boiler -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Boiler">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Appliance"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Book -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Book">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Bookshelf -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Bookshelf">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Bottle -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Bottle">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Vessel"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Bowl -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Bowl">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Dish"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Box -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Box">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Container"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Bread -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Bread">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Food"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Bright -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Bright">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Misc"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Building_Subparts -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Building_Subparts">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Location"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Cabinet -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Cabinet">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Can -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Can">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Container"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Case -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Case">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Container"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Catalogue -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Catalogue">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Book"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Cellphone -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Cellphone">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Phone"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Cereals -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Cereals">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Food"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Chair -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Chair">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Cigarettes -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Cigarettes">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Cleaner -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Cleaner">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Clock -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Clock">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Accessories"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Closet -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Closet">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Cloth -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Cloth">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Cloth_Horse -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Cloth_Horse">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Clothes -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Clothes">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Covering"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Coat -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Coat">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Clothes"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Coffee -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Coffee">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Drink"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Coffee_Machine -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Coffee_Machine">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Appliance"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Coke -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Coke">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Drink"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Color -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Color">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Property"/>
+        <disjointWith rdf:resource="&semantic_mapping_domain_model;Spatial_Property"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Computer -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Computer">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Connecting_Architecture -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Connecting_Architecture">
+        <equivalentClass>
+            <Class>
+                <intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="&semantic_mapping_domain_model;Physical_Thing"/>
+                    <Restriction>
+                        <onProperty rdf:resource="&semantic_mapping_domain_model;connects"/>
+                        <onClass rdf:resource="&semantic_mapping_domain_model;Location"/>
+                        <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">2</qualifiedCardinality>
+                    </Restriction>
+                </intersectionOf>
+            </Class>
+        </equivalentClass>
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Physical_Thing"/>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;connects"/>
+                <allValuesFrom rdf:resource="&semantic_mapping_domain_model;Location"/>
+            </Restriction>
+        </rdfs:subClassOf>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Console -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Console">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Container -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Container">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Controller -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Controller">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Coordinates -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Coordinates">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Position"/>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_coordinates_y"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_coordinates_z"/>
+                <someValuesFrom rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_coordinates_x"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Corn -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Corn">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Cereals"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Corner -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Corner">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Building_Subparts"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Corridor -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Corridor">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Location"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Couch -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Couch">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Counter -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Counter">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Covering -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Covering">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Cup -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Cup">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Dishware"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Cupboard -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Cupboard">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Cushion -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Cushion">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Cutlery -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Cutlery">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Tableware"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Daniele -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Daniele">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Named_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Deck -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Deck">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Desk -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Desk">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Device -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Device">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Dining_Room -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Dining_Room">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Room"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Dish -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Dish">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Dishware"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Dishware -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Dishware">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Tableware"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Dishwasher -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Dishwasher">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Appliance"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Door -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Door">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Connecting_Architecture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Drawer -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Drawer">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Drink -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Drink">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Food"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Drug -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Drug">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Electrical_Fixture -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Electrical_Fixture">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Fixture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Empty -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Empty">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Misc"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Envelope -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Envelope">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Container"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Ethernet_Plug -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Ethernet_Plug">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Plug"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Father -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Father">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Generic_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Fences -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Fences">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Fixture -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Fixture">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Flatware -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Flatware">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Tableware"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Flower -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Flower">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Plant"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Folder -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Folder">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Covering"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Food -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Food">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Fork -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Fork">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Cutlery"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Fridge -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Fridge">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Appliance"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Friend -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Friend">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Generic_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Fruit -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Fruit">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Food"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Furniture -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Furniture">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Garbage -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Garbage">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Garden -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Garden">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Location"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Generic_Person -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Generic_Person">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Glass -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Glass">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Glassware"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Glasses -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Glasses">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Glassware -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Glassware">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Tableware"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Guy -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Guy">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Generic_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#HVAC_Fixture -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;HVAC_Fixture">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Fixture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Hair -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Hair">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Body_Part"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Hall -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Hall">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Room"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Handle -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Handle">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Hat -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Hat">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Clothes"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#He -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;He">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Generic_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Head -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Head">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Body_Part"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Heating -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Heating">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;HVAC_Fixture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Hoodie -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Hoodie">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Clothes"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#It -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;It">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Generic_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Jacket -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Jacket">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Clothes"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Jacket_Hook -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Jacket_Hook">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Jar -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Jar">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Vessel"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#John -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;John">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Named_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Juice -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Juice">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Drink"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Kettle -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Kettle">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Appliance"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Keys -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Keys">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Kitchen -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Kitchen">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Room"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Knife -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Knife">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Cutlery"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Laundry_Room -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Laundry_Room">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Room"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#LexicalReference -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;LexicalReference">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Property"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Light -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Light">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Living_Thing -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Living_Thing">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Physical_Thing"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Livingroom -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Livingroom">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Room"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Location -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Location">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Physical_Thing"/>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;isSubLocationOf"/>
+                <allValuesFrom rdf:resource="&semantic_mapping_domain_model;Location"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;hasSubLocation"/>
+                <allValuesFrom rdf:resource="&semantic_mapping_domain_model;Location"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <disjointWith rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Lot -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Lot">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Misc"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Magazine -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Magazine">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Book"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Mark -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Mark">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Named_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Martina -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Martina">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Named_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Mayo -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Mayo">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Sauce"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Me -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Me">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Generic_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Message -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Message">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Misc"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Milk -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Milk">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Drink"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Mirror -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Mirror">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Misc -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Misc">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Physical_Thing"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Mother -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Mother">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Generic_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Mustard -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Mustard">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Sauce"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Named_Person -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Named_Person">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Napkin -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Napkin">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Cloth"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Networking_Device -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Networking_Device">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Newspaper -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Newspaper">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Book"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Object -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Object">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Physical_Thing"/>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;hasSubPart"/>
+                <allValuesFrom rdf:resource="&semantic_mapping_domain_model;Object"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;isSubPartOf"/>
+                <allValuesFrom rdf:resource="&semantic_mapping_domain_model;Object"/>
+            </Restriction>
+        </rdfs:subClassOf>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Orange -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Orange">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Fruit"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Out -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Out">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Misc"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Oven -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Oven">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Appliance"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Pan -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Pan">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Utensil"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Pantry -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Pantry">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Room"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Pants -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Pants">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Clothes"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Paper -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Paper">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Book"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Pasta -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Pasta">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Food"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Pen -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Pen">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Person -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Person">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Living_Thing"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Phone -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Phone">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Physical_Thing -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Physical_Thing">
+        <equivalentClass>
+            <Class>
+                <intersectionOf rdf:parseType="Collection">
+                    <Restriction>
+                        <onProperty rdf:resource="&semantic_mapping_domain_model;hasLexicalReference"/>
+                        <someValuesFrom rdf:resource="&semantic_mapping_domain_model;LexicalReference"/>
+                    </Restriction>
+                    <Restriction>
+                        <onProperty rdf:resource="&semantic_mapping_domain_model;hasPosition"/>
+                        <someValuesFrom rdf:resource="&semantic_mapping_domain_model;Position"/>
+                    </Restriction>
+                    <Restriction>
+                        <onProperty rdf:resource="&semantic_mapping_domain_model;hasShape"/>
+                        <someValuesFrom rdf:resource="&semantic_mapping_domain_model;Shape"/>
+                    </Restriction>
+                    <Restriction>
+                        <onProperty rdf:resource="&semantic_mapping_domain_model;hasSize"/>
+                        <someValuesFrom rdf:resource="&semantic_mapping_domain_model;Size"/>
+                    </Restriction>
+                    <Restriction>
+                        <onProperty rdf:resource="&semantic_mapping_domain_model;hasSpatialProperty"/>
+                        <someValuesFrom rdf:resource="&semantic_mapping_domain_model;Spatial_Property"/>
+                    </Restriction>
+                </intersectionOf>
+            </Class>
+        </equivalentClass>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;isPartOf"/>
+                <allValuesFrom rdf:resource="&semantic_mapping_domain_model;Physical_Thing"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;hasShape"/>
+                <allValuesFrom rdf:resource="&semantic_mapping_domain_model;Shape"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;hasPart"/>
+                <allValuesFrom rdf:resource="&semantic_mapping_domain_model;Physical_Thing"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;hasAlternativeReference"/>
+                <someValuesFrom rdf:resource="&semantic_mapping_domain_model;AlternativeReference"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;hasPosition"/>
+                <allValuesFrom rdf:resource="&semantic_mapping_domain_model;Position"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;hasPreferredReference"/>
+                <onClass rdf:resource="&semantic_mapping_domain_model;PreferredReference"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;hasProperty"/>
+                <allValuesFrom rdf:resource="&semantic_mapping_domain_model;Property"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;hasSpatialProperty"/>
+                <allValuesFrom rdf:resource="&semantic_mapping_domain_model;Spatial_Property"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;hasSize"/>
+                <allValuesFrom rdf:resource="&semantic_mapping_domain_model;Size"/>
+            </Restriction>
+        </rdfs:subClassOf>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Picture -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Picture">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Pile -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Pile">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Misc"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Pillow -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Pillow">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Cushion"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Plant -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Plant">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Living_Thing"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Plate -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Plate">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Flatware"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Plug -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Plug">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Electrical_Fixture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Plumbing_Fixture -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Plumbing_Fixture">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Fixture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Position -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Position">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Spatial_Property"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Postcard -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Postcard">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Poster -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Poster">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Postman -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Postman">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Worker"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Power_Plug -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Power_Plug">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Plug"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#PreferredReference -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;PreferredReference">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;LexicalReference"/>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;lexicalReference"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;string"/>
+            </Restriction>
+        </rdfs:subClassOf>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Press -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Press">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Property -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Property">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Abstract_Thing"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Radio -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Radio">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Rag -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Rag">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Cloth"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Ready -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Ready">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Misc"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Recorder -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Recorder">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Regulator -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Regulator">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Controller"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Remote_Control -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Remote_Control">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Controller"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Ring -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Ring">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Room -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Room">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Location"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Router -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Router">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Networking_Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Sauce -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Sauce">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Food"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Scissors -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Scissors">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Utensil"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Screwdriver -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Screwdriver">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Utensil"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Sensor -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Sensor">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Regulator"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Shape -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Shape">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Spatial_Property"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Shoes -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Shoes">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Covering"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Shower -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Shower">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Plumbing_Fixture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Sink -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Sink">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Plumbing_Fixture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Sister -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Sister">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Generic_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Size -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Size">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Spatial_Property"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Slippers -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Slippers">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Shoes"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Smartphone -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Smartphone">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Phone"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Soap -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Soap">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Cleaner"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Spatial_Property -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Spatial_Property">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Property"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Spoon -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Spoon">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Cutlery"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Stairs -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Stairs">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Connecting_Architecture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Stove -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Stove">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Appliance"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Studio -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Studio">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Room"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Switch -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Switch">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Controller"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#T-shirt -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;T-shirt">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Clothes"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Table -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Table">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Furniture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Tablecloth -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Tablecloth">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Cloth"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Tablet -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Tablet">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Tableware -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Tableware">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Tap -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Tap">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Regulator"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Television -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Television">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Thermostat -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Thermostat">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Sensor"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#They -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;They">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Generic_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Toilet -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Toilet">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Plumbing_Fixture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Toilet_Paper -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Toilet_Paper">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Accessories"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Towel -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Towel">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Cloth"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Transformation_Matrix -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Transformation_Matrix">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Position"/>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_2_2"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_2_3"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_4_2"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_1_3"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_1_2"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_2_1"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_1_1"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_3_2"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_2_4"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_1_4"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_3_1"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_3_4"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_4_3"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_3_3"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_4_1"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_transformation_matrix_element_4_4"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Tray -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Tray">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Container"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Utensil -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Utensil">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Object"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Vase -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Vase">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Jar"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Ventilating -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Ventilating">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;HVAC_Fixture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Vessel -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Vessel">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Container"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Vittorio -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Vittorio">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Named_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Wall -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Wall">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Connecting_Architecture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Wallet -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Wallet">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Case"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Washing_Line -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Washing_Line">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Washing_Machine -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Washing_Machine">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Appliance"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Water -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Water">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Drink"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#We -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;We">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Generic_Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Wide -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Wide">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Misc"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Wifi -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Wifi">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Networking_Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Window -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Window">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Connecting_Architecture"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Wine -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Wine">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Drink"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Worker -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Worker">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Person"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Wrench -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Wrench">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Utensil"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Wristwatch -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Wristwatch">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Device"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Yogurt -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;Yogurt">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Food"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#3Three_Dim_Size -->
+
+    <Class rdf:about="&semantic_mapping_domain_model;3Three_Dim_Size">
+        <rdfs:subClassOf rdf:resource="&semantic_mapping_domain_model;Size"/>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_size_x"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_size_z"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+        <rdfs:subClassOf>
+            <Restriction>
+                <onProperty rdf:resource="&semantic_mapping_domain_model;float_size_y"/>
+                <qualifiedCardinality rdf:datatype="&xsd;nonNegativeInteger">1</qualifiedCardinality>
+                <onDataRange rdf:resource="&xsd;float"/>
+            </Restriction>
+        </rdfs:subClassOf>
+    </Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // General axioms
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description>
+        <rdf:type rdf:resource="&owl;AllDisjointClasses"/>
+        <members rdf:parseType="Collection">
+            <rdf:Description rdf:about="&semantic_mapping_domain_model;Position"/>
+            <rdf:Description rdf:about="&semantic_mapping_domain_model;Shape"/>
+            <rdf:Description rdf:about="&semantic_mapping_domain_model;Size"/>
+        </members>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.5.1) http://owlapi.sourceforge.net -->
+
