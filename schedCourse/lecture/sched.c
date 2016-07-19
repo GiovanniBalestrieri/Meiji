@@ -17,7 +17,7 @@ void check_periodic_tasks(void)
 			panic0();	/* Should never happen */
 		if (!f->valid)
 			continue;
-		if (time_after_eq(now, f->releasetime)) { // se è già stato rlasciato
+		if (time_after_eq(now, f->releasetime)) { // se è già stato rilasciato
 			f->releasetime += f->period;
 			++f->released;
 			trigger_schedule = 1;	/* force scheduler invocation */
