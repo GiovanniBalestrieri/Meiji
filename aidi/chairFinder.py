@@ -18,6 +18,16 @@ altRefPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mappi
 
 prefRefPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasPreferredReference")
 
+positionPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasPosition")
+
+coordXPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_coordinates_x")
+
+coordYPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_coordinates_y")
+
+coordZPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_coordinates_z")
+
+
+
 numOfChairs = 0
 numOfTables = 0
 
@@ -49,6 +59,21 @@ for chairs in g.subjects(RDF.type,chair):
 				print("\n\nFab Lexical Ref!\n\n")
 				print(o+"\n")
 
+		# Look for coordinates
+		if (pred == positionPred):
+			for o in g.objects(obj,coordXPred):
+				print("\n\nCoord X\n\n")
+				print(o+"\n")
+			
+			for o in g.objects(obj,coordYPred):
+				print("\n\nCoord Y\n\n")
+				print(o+"\n")
+				
+
+			for o in g.objects(obj,coordZPred):
+				print("\n\nCoord Z\n\n")
+				print(o+"\n")
+							
 
 		#print("Predicate:\n " + pred)
 		#print("Object:\n " + obj + "\n\n")
