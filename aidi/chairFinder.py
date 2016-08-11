@@ -14,6 +14,9 @@ table = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_do
 
 lexicalRef = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#lexicalReference")
 
+altRefPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasAlternativeReference")
+
+prefRefPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasPreferredReference")
 
 numOfChairs = 0
 numOfTables = 0
@@ -34,11 +37,24 @@ for chairs in g.subjects(RDF.type,chair):
 	# Search all predicates of this instance
 	print("Looking for predicates...\n\n")
 	for pred,obj in g.predicate_objects(chairs):
-		print("Predicate:\n " + pred)
-		print("Object:\n " + obj + "\n\n")
-		for o in g.objects(obj,None):
-			print("\nFuther Infos:\n")
-			print("Oggetto: \n" + o+ "\n\n")
+		# Look for Alternative References
+		if (pred==altRefPred):
+			for o in g.objects(obj,lexicalRef):
+				print("\n\nAlternative Lexical Refs!\n\n")
+				print(o+"\n")
+		
+		# Look for Preferred Lexical Ref
+		if (pred == prefRefPred):
+			for o in g.objects(obj,lexicalRef):
+				print("\n\nFab Lexical Ref!\n\n")
+				print(o+"\n")
+
+
+		#print("Predicate:\n " + pred)
+		#print("Object:\n " + obj + "\n\n")
+		#for o in g.objects(obj,None):
+		#	print("\nFuther Infos:\n")
+		#	print("Oggetto: \n" + o+ "\n\n")
 	print("\n\n")
 
 for tables in g.subjects(RDF.type,table):
