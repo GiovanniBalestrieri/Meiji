@@ -8,17 +8,35 @@ g = Graph()
 g.parse("semantic_map2.owl")
 
 #g.parse("test.owl")
-print len(g)
+#print len(g)
 
 chair = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Chair")
-if (chair,RDF.type,None) in g:
-	print("Chair found")
+
+table = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Table")
+
+
+
+numOfChairs = 0
+numOfTables = 0
 
 for subj, pred, obj in g:
 	#print("\n New object\n")
 	#print((subj,pred,obj))
  	if (subj, pred, obj) not in g:
 		raise Exception("Iterator / Container Protocols are Broken!!")
+
+
+for chairs in g.subjects(RDF.type,chair):
+	print("Found a Chair",chairs)
+	numOfChairs += 1
+
+for tables in g.subjects(RDF.type,table):
+	print("Found a table",tables)
+	numOfTables += 1
+
+print("Total Number of Chairs:",numOfChairs) 
+print("Total Number of Tables:",numOfTables) 
+
 
 #print("--- printing mboxes ---")
 for person in g.subjects(RDF.type, FOAF.Person):

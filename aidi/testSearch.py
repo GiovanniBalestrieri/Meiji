@@ -20,5 +20,7 @@ g.add( (linda, FOAF.name, Literal('Linda')))
 
 print g.serialize(format='turtle')
 
+Chair = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#Chair")
+
 if ( bob, RDF.type, FOAF.Person ) in g:
    print "This graph knows that Bob is a person!"
