@@ -4,7 +4,7 @@ from rdflib import Graph, Literal, BNode, Namespace, RDF, URIRef
 from rdflib.namespace import DC, FOAF, RDF
 
 g = Graph()
-g.parse("semantic_map4Simple.owl")
+g.parse("semantic_mapChairs.owl")
 
 #print len(g)
 
@@ -34,8 +34,6 @@ sizeYPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mappin
 
 sizeZPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_size_z")
 
-
-
 numOfChairs = 0
 numOfTables = 0
 
@@ -49,8 +47,11 @@ print("\n\nChairs:\n\n")
 
 # Find Triples in which an instance of the type Chair is defined
 for chairs in g.subjects(RDF.type,chair):
-	print("Found a Chair\n"+ chairs +"\n\n")
+	
+	print("------------------------------------------\n")
+	print("Found a Chair\n"+ chairs +"\n")
 	numOfChairs += 1
+	print("------------------------------------------")
 	
 	# Search all predicates of this instance
 	print("Looking for predicates...\n\n")
@@ -98,7 +99,7 @@ for chairs in g.subjects(RDF.type,chair):
 				print("\n\nCoord Z\n\n")
 				print(o+"\n")
 							
-
+		# Generic object and predicate
 		#print("Predicate:\n " + pred)
 		#print("Object:\n " + obj + "\n\n")
 		#for o in g.objects(obj,None):
@@ -106,9 +107,12 @@ for chairs in g.subjects(RDF.type,chair):
 		#	print("Oggetto: \n" + o+ "\n\n")
 	print("\n\n")
 
+
 for tables in g.subjects(RDF.type,table):
-	print("Found a table",tables)
+	print("------------------------------------------\n")
+	print("\nFound a table!!\n\n" + tables+"\n")
 	numOfTables += 1
+	print("------------------------------------------\n")
 
 print("Total Number of Chairs:",numOfChairs) 
 print("Total Number of Tables:",numOfTables) 

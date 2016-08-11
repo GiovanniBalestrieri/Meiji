@@ -45,6 +45,42 @@
         <semantic_mapping_domain_model:hasAlternativeReference rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_alternative_reference_3"/>
         <semantic_mapping_domain_model:hasPreferredReference rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_preferred_reference"/>
     </NamedIndividual>
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair2 -->
+
+    <NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair2">
+        <rdf:type rdf:resource="&semantic_mapping_domain_model;Chair"/>
+        <semantic_mapping_domain_model:hasPosition rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair2_coordinates"/>
+        <semantic_mapping_domain_model:hasSize rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair2_size"/>
+        <semantic_mapping_domain_model:hasAlternativeReference rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_alternative_reference_1"/>
+        <semantic_mapping_domain_model:hasAlternativeReference rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_alternative_reference_2"/>
+        <semantic_mapping_domain_model:hasAlternativeReference rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_alternative_reference_3"/>
+        <semantic_mapping_domain_model:hasPreferredReference rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_preferred_reference"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair2_coordinates -->
+
+    <NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair2_coordinates">
+        <rdf:type rdf:resource="&semantic_mapping_domain_model;Coordinates"/>
+        <semantic_mapping_domain_model:float_coordinates_z rdf:datatype="&xsd;float">0.0</semantic_mapping_domain_model:float_coordinates_z>
+        <semantic_mapping_domain_model:float_coordinates_y rdf:datatype="&xsd;float">1.0</semantic_mapping_domain_model:float_coordinates_y>
+        <semantic_mapping_domain_model:float_coordinates_x rdf:datatype="&xsd;float">3.0</semantic_mapping_domain_model:float_coordinates_x>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair2_size -->
+
+    <NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair2_size">
+        <rdf:type rdf:resource="&semantic_mapping_domain_model;3Three_Dim_Size"/>
+        <semantic_mapping_domain_model:float_size_y rdf:datatype="&xsd;float">0.5</semantic_mapping_domain_model:float_size_y>
+        <semantic_mapping_domain_model:float_size_x rdf:datatype="&xsd;float">0.5</semantic_mapping_domain_model:float_size_x>
+        <semantic_mapping_domain_model:float_size_z rdf:datatype="&xsd;float">0.8</semantic_mapping_domain_model:float_size_z>
+    </NamedIndividual>
+    
     
 
     
