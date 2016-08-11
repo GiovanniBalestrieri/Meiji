@@ -17,6 +17,7 @@
      xmlns:semantic_mapping_domain_model="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+
     <Ontology rdf:about="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model">
         <semantic_mapping_domain_model:name xml:lang="en">Domain Model of the Semantic Map</semantic_mapping_domain_model:name>
     </Ontology>

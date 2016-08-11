@@ -5,7 +5,9 @@ from rdflib.namespace import DC, FOAF
 
 g = Graph()
 #g.parse("http://dbpedia.org/resource/Elvis_Presley")
-g.parse("semantic_map1.owl")
+#g.parse("semantic_map1.owl")
+
+g.parse("test.owl")
 print len(g)
 
 
