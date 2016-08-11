@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY semantic_mapping_domain_model "http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#" >
+]>
+
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:owl="http://www.w3.org/2002/07/owl#"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:plants="http://www.linkeddatatools.com/plants#">
+
+	<!-- OWL Header Omitted For Brevity -->
+
+	<Ontology rdf:about="http://www.linkeddatatools.com/plants">
+		<dc:title>The LinkedDataTools.com Example Plant Ontology</dc:title>
+		<dc:description>An example ontology written for the LinkedDataTools.com RDFS and OWL introduction tutorial</dc:description>
+	</Ontology>
+
+
+	<!-- OWL Class Definition - Plant Type -->
+	<rdfs:Class rdf:about="http://www.linkeddatatools.com/plants#planttype">
+		<rdfs:label xml:lang="en">Plants Types</rdfs:label>
+		<rdfs:comment xml:lang="en">All kind of plant types.</rdfs:comment>
+
+	</rdfs:Class>
+
+	<!-- OWL Subclass Definition - Flower -->
+	<Class rdf:about="http://www.linkeddatatools.com/plants#flowers">
+		<!-- Flowers is a subclassification of planttype -->
+		<rdfs:subClassOf rdf:resource="http://www.linkeddatatools.com/plants#planttype"/>
+
+		<rdfs:label>Flowering plants</rdfs:label>
+		<rdfs:comment>Flowering plants, also known as angiosperms.</rdfs:comment>
+
+	<Class>
+
+	<!-- OWL Subclass Definition - Shrub -->
+	<Class rdf:about="http://www.linkeddatatools.com/plants#shrubs">
+
+		<!-- Shrubs is a subclassification of planttype -->
+		<rdfs:subClassOf rdf:resource="http://www.linkeddatatools.com/plants#planttype"/>
+
+		<rdfs:label>Shrubbery</rdfs:label>
+		<rdfs:comment>Shrubs, a type of plant which branches from the base.</rdfs:comment>
+	</Class>
+
+	<!-- Define the family property -->
+	<DatatypeProperty rdf:about="http://www.linkeddatatools.com/plants#family"/>
+
+	<!-- Define the similarlyPopularTo property -->
+	<ObjectProperty rdf:about="http://www.linkeddatatools.com/plants#similarlyPopularTo"/>
+
+	<!-- Define the Orchid class instance -->
+	<rdf:Description rdf:about="http://www.linkeddatatools.com/plants#orchid">
+
+		<!-- Orchid is an individual (instance) of the flowers class -->
+		<rdf:type rdf:resource="http://www.linkeddatatools.com/plants#flowers"/>
+
+		<!-- The orchid is part of the 'Orchidaceae' family -->
+		<plants:family>Orchidaceae</plants:family>
+
+		<!-- The orchid is similarly popular to the magnolia -->
+		<plants:similarlyPopularTo rdf:resource="http://www.linkeddatatools.com/plants#magnolia"/>
+
+	</rdf:Description>
+
+	<!-- Define the Magnolia class instance -->
+	<rdf:Description rdf:about="http://www.linkeddatatools.com/plants#magnolia">
+
+		<!-- Magnolia is an individual (instance) of the flowers class -->
+		<rdf:type rdf:resource="http://www.linkeddatatools.com/plants#flowers"/>
+
+		<!-- The magnolia is part of the 'Magnoliaceae' family -->
+		<plants:family>Magnoliaceae</plants:family>
+
+		<!-- The magnolia is similarly popular to the orchid -->
+		<plants:similarlyPopularTo rdf:resource="http://www.linkeddatatools.com/plants#orchid"/>
+
+	</rdf:Description>
+
+</rdf:RDF>
+
