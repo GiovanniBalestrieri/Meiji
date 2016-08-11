@@ -26,6 +26,14 @@ coordYPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mappi
 
 coordZPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_coordinates_z")
 
+sizePred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#hasSize")
+
+sizeXPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_size_x")
+
+sizeYPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_size_y")
+
+sizeZPred = URIRef("http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#float_size_z")
+
 
 
 numOfChairs = 0
@@ -58,6 +66,22 @@ for chairs in g.subjects(RDF.type,chair):
 			for o in g.objects(obj,lexicalRef):
 				print("\n\nFab Lexical Ref!\n\n")
 				print(o+"\n")
+
+		# Look for size
+		if (pred == sizePred):
+			for o in g.objects(obj,sizeXPred):
+				print("\n\nSize X\n\n")
+				print(o+"\n")
+			
+			for o in g.objects(obj,sizeYPred):
+				print("\n\nSize Y\n\n")
+				print(o+"\n")
+				
+
+			for o in g.objects(obj,sizeZPred):
+				print("\n\nSize Z\n\n")
+				print(o+"\n")
+			
 
 		# Look for coordinates
 		if (pred == positionPred):
