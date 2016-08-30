@@ -54,50 +54,46 @@ for chairs in g.subjects(RDF.type,chair):
 	print("------------------------------------------")
 	
 	# Search all predicates of this instance
-	print("Looking for predicates...\n\n")
+	print("### Predicates ###\n\n")
 	for pred,obj in g.predicate_objects(chairs):
 		# Look for Alternative References
+		
 		if (pred==altRefPred):
+			print("# Lexical Reference #\n")
 			for o in g.objects(obj,lexicalRef):
-				print("\n\nAlternative Lexical Refs!\n\n")
-				print(o+"\n")
+				print("Alternative: "+o+"\n")
 		
 		# Look for Preferred Lexical Ref
 		if (pred == prefRefPred):
 			for o in g.objects(obj,lexicalRef):
-				print("\n\nFab Lexical Ref!\n\n")
-				print(o+"\n")
+				print("*Favourite*: "+o+"\n")
 
 		# Look for size
 		if (pred == sizePred):
+			print("# Dimensions #\n")
 			for o in g.objects(obj,sizeXPred):
-				print("\n\nSize X\n\n")
-				print(o+"\n")
+				print("Size X: " +o+"\n")
 			
 			for o in g.objects(obj,sizeYPred):
-				print("\n\nSize Y\n\n")
-				print(o+"\n")
+				print("Size Y: "+o+"\n")
 				
 
 			for o in g.objects(obj,sizeZPred):
-				print("\n\nSize Z\n\n")
-				print(o+"\n")
+				print("Size Z: "+o+"\n")
 			
 
 		# Look for coordinates
 		if (pred == positionPred):
+			print("# Coordinates #\n")
 			for o in g.objects(obj,coordXPred):
-				print("\n\nCoord X\n\n")
-				print(o+"\n")
+				print("X: "+o+"\n")
 			
 			for o in g.objects(obj,coordYPred):
-				print("\n\nCoord Y\n\n")
-				print(o+"\n")
+				print("Y: "+o+"\n")
 				
 
 			for o in g.objects(obj,coordZPred):
-				print("\n\nCoord Z\n\n")
-				print(o+"\n")
+				print("Z:  "+o+"\n")
 							
 		# Generic object and predicate
 		#print("Predicate:\n " + pred)
