@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY semantic_mapping_domain_model "http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.w3.org/2002/07/owl"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:semantic_mapping_domain_model="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <Ontology rdf:about="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1">
+        <imports rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_domain_model"/>
+    </Ontology>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair1 -->
+
+    <NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair1">
+        <rdf:type rdf:resource="&semantic_mapping_domain_model;Chair"/>
+        <semantic_mapping_domain_model:hasPosition rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair1_coordinates"/>
+        <semantic_mapping_domain_model:hasSize rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair1_size"/>
+        <semantic_mapping_domain_model:hasAlternativeReference rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_alternative_reference_1"/>
+        <semantic_mapping_domain_model:hasPreferredReference rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_preferred_reference"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair1_coordinates -->
+
+    <NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair1_coordinates">
+        <rdf:type rdf:resource="&semantic_mapping_domain_model;Coordinates"/>
+        <semantic_mapping_domain_model:float_coordinates_z rdf:datatype="&xsd;float">0.0</semantic_mapping_domain_model:float_coordinates_z>
+        <semantic_mapping_domain_model:float_coordinates_y rdf:datatype="&xsd;float">0.0</semantic_mapping_domain_model:float_coordinates_y>
+        <semantic_mapping_domain_model:float_coordinates_x rdf:datatype="&xsd;float">1.0</semantic_mapping_domain_model:float_coordinates_x>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair1_size -->
+
+    <NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair1_size">
+        <rdf:type rdf:resource="&semantic_mapping_domain_model;3Three_Dim_Size"/>
+        <semantic_mapping_domain_model:float_size_y rdf:datatype="&xsd;float">0.5</semantic_mapping_domain_model:float_size_y>
+        <semantic_mapping_domain_model:float_size_x rdf:datatype="&xsd;float">0.5</semantic_mapping_domain_model:float_size_x>
+        <semantic_mapping_domain_model:float_size_z rdf:datatype="&xsd;float">0.8</semantic_mapping_domain_model:float_size_z>
+        <semantic_mapping_domain_model:hasPosition rdf:resource="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair1_coordinates"/>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_alternative_reference_1 -->
+
+    <NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_alternative_reference_1">
+        <rdf:type rdf:resource="&semantic_mapping_domain_model;AlternativeReference"/>
+        <semantic_mapping_domain_model:lexicalReference rdf:datatype="&xsd;string">chair</semantic_mapping_domain_model:lexicalReference>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_alternative_reference_2 -->
+
+    <NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_alternative_reference_2">
+        <rdf:type rdf:resource="&semantic_mapping_domain_model;AlternativeReference"/>
+        <semantic_mapping_domain_model:lexicalReference rdf:datatype="&xsd;string">seat</semantic_mapping_domain_model:lexicalReference>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_alternative_reference_3 -->
+
+    <NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_alternative_reference_3">
+        <rdf:type rdf:resource="&semantic_mapping_domain_model;AlternativeReference"/>
+        <semantic_mapping_domain_model:lexicalReference rdf:datatype="&xsd;string">pew</semantic_mapping_domain_model:lexicalReference>
+    </NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_preferred_reference -->
+
+    <NamedIndividual rdf:about="http://www.semanticweb.org/ontologies/2016/1/semantic_mapping_1#chair_preferred_reference">
+        <rdf:type rdf:resource="&semantic_mapping_domain_model;PreferredReference"/>
+        <semantic_mapping_domain_model:lexicalReference rdf:datatype="&xsd;string">chair</semantic_mapping_domain_model:lexicalReference>
+    </NamedIndividual>
+    
+
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.5.1) http://owlapi.sourceforge.net -->
+
