@@ -104,6 +104,8 @@ if __name__ == '__main__':
 	#zeroX,zeroY,zeroZ = (0,0,0)
 	zeroX,zeroY,zeroZ = sensor.calibrate(1000,0.002);
 	print "Bias: x " ,zeroX, " y ", zeroY, " z ", zeroZ
-    gx, gy, gz = sensor.read_data_calib()
-    print gx, gy, gz
+    for num in range(0,100):
+	    gx, gy, gz = sensor.read_data_calib()
+	    print gx, gy, gz
+		time.sleep(0.1)
 
