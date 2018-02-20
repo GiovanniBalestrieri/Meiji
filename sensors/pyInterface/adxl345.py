@@ -5,8 +5,8 @@ import smbus
 import math
 import numpy as np
 
-logpath = '/home/userk/sensors/Meiji/sensors/log/acc.csv'
-logpathRaw = '/home/userk/sensors/Meiji/sensors/log/accRaw.csv'
+logpath = 'log/acc.csv'
+logpathRaw = 'log/accRaw.csv'
 
 class Adxl(object):
 	
@@ -172,14 +172,23 @@ class Adxl(object):
 		return G
 
 if __name__ == "__main__":
-	f = open(logpath,'w+')
-	F = open(logpathRaw,'w+')
+        try:
+	    f = open(logpath,'wa')
+        except OSError as e:
+            if e.errno == errno.ENOENT:
+                # do your FileNotFoundError code here
+                print("File does not exist")
+                f = open(logpath, 'w')
+            else:
+                print("File does not exist")
+                raise
+	F = open(logpathRaw,'wa+')
 	shutdown = 0
 	N = 200
 
 	# adxl(i2c_adapter,bus_nr,resolution)
 	#	[0,1,2,3] for [2g,4g,8g,16g]
-	adx = adxl(1,0x53,0)	
+	adx = Adxl(1,0x53,0)	
 	print "Resolution: " ,adx.gRange 
 	
 	while not shutdown == N:
