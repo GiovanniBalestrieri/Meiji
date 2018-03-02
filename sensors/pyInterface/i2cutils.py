@@ -21,11 +21,14 @@ def i2c_read_word_unsigned(bus, address, register):
     return (high << 8) + low
 
 def i2c_read_word_signed(bus, address, register):
-    value = i2c_read_word_unsigned(bus, address, register)
-    if (value >= 0x8000):
-        return -((0xffff - value) + 1)
-    else:
-        return value
+    try:
+        value = i2c_read_word_unsigned(bus, address, register)
+        if (value >= 0x8000):
+            return -((0xffff - value) + 1)
+        else:
+            return value
+    except IOError as e:
+        pass
 
 def i2c_write_byte(bus, address, register, value):
     bus.write_byte_data(address, register, value)
