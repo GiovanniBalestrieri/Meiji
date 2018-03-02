@@ -19,11 +19,14 @@ def read_word(adr):
     return val
 
 def read_word_2c(adr):
-    val = read_word(adr)
-    if (val >= 0x8000):
-        return -((65535 - val) + 1)
-    else:
-        return val
+    try:
+        val = read_word(adr)
+        if (val >= 0x8000):
+            return -((65535 - val) + 1)
+        else:
+            return val
+    except IOError as e:
+            print "I/O error({0}): {1}".format(e.errno, e.strerror)
 
 def write_byte(adr, value):
     bus.write_byte_data(address, adr, value)

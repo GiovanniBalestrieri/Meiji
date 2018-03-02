@@ -28,11 +28,14 @@ def read_word(adr):
     return val
 
 def read_word_2c(adr):
-    val = read_word(adr)
-    if (val >= 0x8000):
-        return -((65535 - val) + 1)
-    else:
-        return val
+    try:
+        val = read_word(adr)
+        if (val >= 0x8000):
+            return -((65535 - val) + 1)
+        else:
+            return val
+    except IOError as e:
+            print "I/O error({0}): {1}".format(e.errno, e.strerror)
 
 def write_byte(adr, value):
     bus.write_byte_data(address, adr, value)
@@ -43,7 +46,7 @@ write_byte(2, 0b00000000) # Continuous sampling
 
 scale = 0.92
 
-for i in range(0,200):
+for i in range(0,500):
 	time.sleep(0.1)
 	x_out = read_word_2c(3) * scale
 	y_out = read_word_2c(7) * scale
