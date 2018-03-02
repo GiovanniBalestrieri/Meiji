@@ -41,7 +41,7 @@ readings = [0,0,0]
 
 with open("calibrate_values.csv","wb") as csv_file:
     writer = csv.writer(csv_file,delimiter=',')
-    for i in range(0,400):
+    for i in range(0,800):
         x_out = read_word_2c(3)*scale
         y_out = read_word_2c(7)*scale
         z_out = read_word_2c(5)*scale

@@ -54,15 +54,19 @@ scale = 0.92
 
 for i in range(0,500):
 	time.sleep(0.1)
-        if not using_configs:
-	    x_out = read_word_2c(3) * scale
-	    y_out = read_word_2c(7) * scale
-	    z_out = read_word_2c(5) * scale
-        else:
-	    x_out = (read_word_2c(3)-bias[0]) * scales[0]
-	    y_out = (read_word_2c(7)-bias[1]) * scales[1]
-	    z_out = (read_word_2c(5)-bias[2]) * scales[2]
+        try:
+            if not using_configs:
+	        x_out = read_word_2c(3) * scale
+	        y_out = read_word_2c(7) * scale
+	        z_out = read_word_2c(5) * scale
+            else:
+	        x_out = (read_word_2c(3)-bias[0]) * scales[0]
+	        y_out = (read_word_2c(7)-bias[1]) * scales[1]
+	        z_out = (read_word_2c(5)-bias[2]) * scales[2]
 	
+        except TypeError as e:
+            print "Error " 
+        
         bearing  = math.atan2(y_out, x_out) 
 	if (bearing < 0):
 	    bearing += 2 * math.pi
