@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import smbus, time, math, csv
 
+deuxieme_tour = False
 bus = smbus.SMBus(1)
 address = 0x1e
 max_val = [0,0,0] 
@@ -36,17 +37,8 @@ write_byte(1, 0b00100000) # 1.3 gain LSb / Gauss 1090 (default)
 write_byte(2, 0b00000000) # Continuous sampling
 
 scale = 0.92
-
-x_out = read_word_2c(3) * scale
-y_out = read_word_2c(7) * scale
-z_out = read_word_2c(5) * scale
-
-bearing  = math.atan2(y_out, x_out) 
-if (bearing < 0):
-    bearing += 2 * math.pi
-
-print "Bearing: ", math.degrees(bearing)
 readings = [0,0,0] 
+
 with open("calibrate_values.csv","wb") as csv_file:
     writer = csv.writer(csv_file,delimiter=',')
     for i in range(0,400):
@@ -69,11 +61,10 @@ with open("calibrate_values.csv","wb") as csv_file:
         if (bearing < 0):
             bearing += 2 * math.pi
     
-        print x_out, y_out, z_out, (x_out * scale), (y_out * scale), bearing
+        print x_out, y_out, z_out, math.degrees(bearing)#, (x_out * scale), (y_out * scale), bearing
         data = ['a',x_out,y_out,z_out,bearing,'z']
         writer.writerow(data)
         time.sleep(0.1)
-        #print 'Bearing: %.2f' % bearing
 
 print("Calibration done: min: " +str(min_val) + " max: " + str(max_val))
 print("Getting hard iron corrections ...")
@@ -105,27 +96,27 @@ with open("config_mag.csv","wb") as csv_file:
 
 print("Vamos")
 time.sleep(2)
-print("Yep")
-with open("calibrated_values.csv","wb") as csv_file:
-    writer = csv.writer(csv_file,delimiter=',')
-    for i in range(0,400):
-        x_out = read_word_2c(3)*scale
-        y_out = read_word_2c(7)*scale
-        z_out = read_word_2c(5)*scale
-    
-        x = (x_out - bias[0])*mag_scale[0]
-        y = (y_out - bias[1])*mag_scale[1]
-        z = (z_out - bias[2])*mag_scale[2]
-    
-        bearing  = math.atan2(y, x) 
-        bearing_raw = math.atan2(y_out, x_out) 
-        if (bearing < 0):
-            bearing += 2 * math.pi
-        if (bearing_raw < 0):
-            bearing_raw += 2 * math.pi
+if deuxieme_tour:
+    with open("calibrated_values.csv","wb") as csv_file:
+        writer = csv.writer(csv_file,delimiter=',')
+        for i in range(0,400):
+            x_out = read_word_2c(3)*scale
+            y_out = read_word_2c(7)*scale
+            z_out = read_word_2c(5)*scale
         
-        print x_out, y_out, z_out, (x), (y), z, bearing_raw , bearing
-        data= [x_out, y_out, z_out, (x), (y), z, bearing_raw , bearing]
-        writer.writerow(data)
-        time.sleep(0.1)
+            x = (x_out - bias[0])*mag_scale[0]
+            y = (y_out - bias[1])*mag_scale[1]
+            z = (z_out - bias[2])*mag_scale[2]
+        
+            bearing  = math.atan2(y, x) 
+            bearing_raw = math.atan2(y_out, x_out) 
+            if (bearing < 0):
+                bearing += 2 * math.pi
+            if (bearing_raw < 0):
+                bearing_raw += 2 * math.pi
+            
+            print x_out, y_out, z_out, (x), (y), z, bearing_raw , bearing
+            data= [x_out, y_out, z_out, (x), (y), z, bearing_raw , bearing]
+            writer.writerow(data)
+            time.sleep(0.1)
  

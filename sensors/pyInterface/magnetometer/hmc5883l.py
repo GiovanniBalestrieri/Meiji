@@ -3,19 +3,25 @@ import smbus, time, math, csv
 
 bus = smbus.SMBus(1)
 address = 0x1e
-
+using_configs = False
 bias=[0,0,0]
 scales=[1,1,1]
 
 with open("config_mag.csv",'rb') as csv_file:
     reader = csv.reader(csv_file, delimiter=',')
+    bias_read = False
+    scale_read = False
     for row in reader:
         if row[0]=='b':
             for i in range(3):
-                bias[i] = row[i+1]
+                bias[i] = float(row[i+1])
+            bias_read = True
         elif row[0] == 's':
             for i in range(3):
-                scales[i] = row[i+1]
+                scales[i] = float(row[i+1])
+            scale_read = True
+    if scale_read and bias_read:
+        using_configs = True
 print("Getting configuration .../n Bias: " + str(bias) + " scales: " + str(scales))
 
 def read_byte(adr):
@@ -48,11 +54,16 @@ scale = 0.92
 
 for i in range(0,500):
 	time.sleep(0.1)
-	x_out = read_word_2c(3) * scale
-	y_out = read_word_2c(7) * scale
-	z_out = read_word_2c(5) * scale
-
-	bearing  = math.atan2(y_out, x_out) 
+        if not using_configs:
+	    x_out = read_word_2c(3) * scale
+	    y_out = read_word_2c(7) * scale
+	    z_out = read_word_2c(5) * scale
+        else:
+	    x_out = (read_word_2c(3)-bias[0]) * scales[0]
+	    y_out = (read_word_2c(7)-bias[1]) * scales[1]
+	    z_out = (read_word_2c(5)-bias[2]) * scales[2]
+	
+        bearing  = math.atan2(y_out, x_out) 
 	if (bearing < 0):
 	    bearing += 2 * math.pi
 	print "Bearing: ", math.degrees(bearing)
