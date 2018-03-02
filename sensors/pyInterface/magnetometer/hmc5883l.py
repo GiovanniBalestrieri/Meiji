@@ -1,11 +1,22 @@
 #!/usr/bin/python
-import smbus
-import time
-import math
+import smbus, time, math, csv
 
 bus = smbus.SMBus(1)
 address = 0x1e
 
+bias=[0,0,0]
+scales=[1,1,1]
+
+with open("config_mag.csv",'rb') as csv_file:
+    reader = csv.reader(csv_file, delimiter=',')
+    for row in reader:
+        if row[0]=='b':
+            for i in range(3):
+                bias[i] = row[i+1]
+        elif row[0] == 's':
+            for i in range(3):
+                scales[i] = row[i+1]
+print("Getting configuration .../n Bias: " + str(bias) + " scales: " + str(scales))
 
 def read_byte(adr):
     return bus.read_byte_data(address, adr)
