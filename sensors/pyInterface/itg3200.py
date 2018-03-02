@@ -19,7 +19,7 @@
 # along with this program.  If not, see http://www.gnu.org/licenses/.
 #
 
-import smbus,time
+import smbus,time, i2cutils, csv
 
 def int_sw_swap(x):
     """Interpret integer as signed word with bytes swapped"""
@@ -39,10 +39,13 @@ class SensorITG3200(object):
             addr   .. ITG3200 device address
         """
         self.bus = smbus.SMBus(bus_nr)
-        self.zeroX = 0
-        self.zeroY = 0
-        self.zeroZ = 0
+        self.zeroX = 20
+        self.zeroY = -4726
+        self.zeroZ = 23635
         self.addr = addr
+        
+        self.file = open("data.csv","wba")
+        self.writer = csv.writer(self.file,delimiter=',')
 
     def sample_rate(self, lpf, div):
         """Set internal sample rate, low pass filter frequency.
@@ -92,8 +95,14 @@ class SensorITG3200(object):
         """
 		gx = int_sw_swap(self.bus.read_word_data(self.addr, 0x1d))
 		gy = int_sw_swap(self.bus.read_word_data(self.addr, 0x1f))
-		gz = int_sw_swap(self.bus.read_word_data(self.addr, 0x21))
+		gz = i2cutils.i2c_read_word_signed(self.bus,self.addr, 0x21)
+		#gz = self.bus.read_word_data(self.addr, 0x21)
+
         return (gx-self.zeroX, gy-self.zeroY, gz-self.zeroZ)
+
+    def save_data_csv(self,val1,val2,val3):
+        data = ['g',val1,val2,val3,'z']
+        self.writer.writerow(data)
 
 if __name__ == '__main__':
     import time
@@ -102,10 +111,18 @@ if __name__ == '__main__':
     time.sleep(0.1)
 
 	#zeroX,zeroY,zeroZ = (0,0,0)
-	zeroX,zeroY,zeroZ = sensor.calibrate(1000,0.002);
-	print "Bias: x " ,zeroX, " y ", zeroY, " z ", zeroZ
-    for num in range(0,100):
-	    gx, gy, gz = sensor.read_data_calib()
-	    print gx, gy, gz
+    print("Calibrating gyroscope ...")
+	#zeroX,zeroY,zeroZ = sensor.calibrate(4000,0.002);
+	#print "Bias: x " ,zeroX, " y ", zeroY, " z ", zeroZ
+    while True:
+        try:
+	        gx, gy, gz = sensor.read_data_calib()
+            # UnWrapp data TODO optimize it
+            if gz<-sensor.zeroZ*0.9:
+                gz += sensor.zeroZ
+	        print gz, gz - sensor.zeroZ
+            sensor.save_data_csv(0,gz,gz-sensor.zeroZ)
+        except:
+            print("Skipping values")
 		time.sleep(0.1)
 
