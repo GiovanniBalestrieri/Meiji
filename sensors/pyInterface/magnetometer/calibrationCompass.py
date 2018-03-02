@@ -26,9 +26,9 @@ readings = [0,0,0]
 with open("calibrate_values.csv","wb") as csv_file:
     writer = csv.writer(csv_file,delimiter=',')
     for i in range(0,800):
-        x_out = i2cutils.i2c_read_word_signed(bus,address,3)*scale
-        y_out = i2cutils.i2c_read_word_signed(bus,address,7)*scale
-        z_out = i2cutils.i2c_read_word_signed(bus,address,5)*scale
+        x_out = i2cutils.i2c_read_word_signed(bus,address,3)
+        y_out = i2cutils.i2c_read_word_signed(bus,address,7)
+        z_out = i2cutils.i2c_read_word_signed(bus,address,5)
 
         readings[0] = x_out
         readings[1] = y_out
