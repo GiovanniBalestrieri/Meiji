@@ -1,9 +1,7 @@
 #!/usr/bin/python
 # vim: ai:ts=4:sw=4:sts=4:et:fileencoding=utf-8
 #
-# ITG3200 gyroscope control class
-#
-# Copyright 2013 Michal Belica <devel@beli.sk>
+# ITG3200 gyroscope class
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,13 +18,8 @@
 #
 
 import smbus,time, i2cutils, csv
-
-def int_sw_swap(x):
-    """Interpret integer as signed word with bytes swapped"""
-	xl = x & 0xff
-	xh = x >> 8
-	xx = (xl << 8) + xh
-    return xx - 0xffff if xx > 0x7fff else xx
+from scipy.signal import medfilt
+from collections import deque
 
 class SensorITG3200(object):
     """ITG3200 digital gyroscope control class.
@@ -44,6 +37,14 @@ class SensorITG3200(object):
         self.zeroZ = 23635
         self.addr = addr
         
+        # Rolling buffers
+        self.buf_len = 11
+        self.filt_len = 5
+        self.data_x = []
+        self.data_y = []
+        self.data_z = []
+
+
         self.file = open("data.csv","wba")
         self.writer = csv.writer(self.file,delimiter=',')
 
@@ -89,16 +90,56 @@ class SensorITG3200(object):
         """
         self.sample_rate(1, 8)
 
-    def read_data_calib(self):
+    def read_data_calib(self,filt=False):
         """Read and return data tuple for x, y and z axis
         as signed 16-bit integers.
         """
-		gx = int_sw_swap(self.bus.read_word_data(self.addr, 0x1d))
-		gy = int_sw_swap(self.bus.read_word_data(self.addr, 0x1f))
+		gx = i2cutils.i2c_read_word_signed(self.bus,self.addr, 0x1d)
+		gy = i2cutils.i2c_read_word_signed(self.bus,self.addr, 0x1f)
 		gz = i2cutils.i2c_read_word_signed(self.bus,self.addr, 0x21)
-		#gz = self.bus.read_word_data(self.addr, 0x21)
+    
+        ret_x = gx-self.zeroX
+        ret_y = gy-self.zeroY
+        ret_z = gz-self.zeroZ
+        
+        print(" NEW " )
 
-        return (gx-self.zeroX, gy-self.zeroY, gz-self.zeroZ)
+        items_x = deque(self.data_x)
+        items_y = deque(self.data_y)
+        items_z = deque(self.data_z)
+        
+        
+        print("raw: " + str(self.data_x))
+        print("   : "+str(items_x)+"len " + str(len(items_x)))
+
+        if len(items_x) >= self.buf_len:
+            items_x.popleft()
+            print("PopLeft + ")
+            print("After: "+str(items_x)+"len " + str(len(items_x)))
+            items_y.popleft()
+            items_z.popleft()
+        
+        items_x.append(ret_x)
+        print("Appending " + str(ret_x))
+        items_y.append(ret_y)
+        items_z.append(ret_z)
+        
+        self.data_x = list(items_x)
+        self.data_y = list(items_y)
+        print("Dump")
+        print("raw: A " + str(self.data_x))
+        self.data_z = list(items_z)
+
+        if filt:
+            self.med_filter_data()
+
+        return (self.data_x[-1], self.data_y[-1], self.data_z[-1])
+
+    def med_filter_data(self):
+        self.data_x = medfilt(self.data_x,self.filt_len)
+        self.data_y = medfilt(self.data_y,self.filt_len)
+        self.data_z = medfilt(self.data_z,self.filt_len)
+        print("B")
 
     def save_data_csv(self,val1,val2,val3):
         data = ['g',val1,val2,val3,'z']
@@ -116,7 +157,8 @@ if __name__ == '__main__':
 	#print "Bias: x " ,zeroX, " y ", zeroY, " z ", zeroZ
     while True:
         try:
-	        gx, gy, gz = sensor.read_data_calib()
+	        gx, gy, gz = sensor.read_data_calib(filt=False)
+            
             # UnWrapp data TODO optimize it
             if gz<-sensor.zeroZ*0.9:
                 gz += sensor.zeroZ
