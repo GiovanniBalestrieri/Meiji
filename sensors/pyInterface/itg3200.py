@@ -39,11 +39,11 @@ class SensorITG3200(object):
         
         # Rolling buffers
         self.buf_len = 11
-        self.filt_len = 5
+        self.filt_len = 3
         self.data_x = []
         self.data_y = []
         self.data_z = []
-
+        self.alpha_lp = 0.99
 
         self.file = open("data.csv","wba")
         self.writer = csv.writer(self.file,delimiter=',')
@@ -96,50 +96,63 @@ class SensorITG3200(object):
         """
 		gx = i2cutils.i2c_read_word_signed(self.bus,self.addr, 0x1d)
 		gy = i2cutils.i2c_read_word_signed(self.bus,self.addr, 0x1f)
-		gz = i2cutils.i2c_read_word_signed(self.bus,self.addr, 0x21)
+		gz = i2cutils.i2c_read_word_unsigned(self.bus,self.addr, 0x21)
     
         ret_x = gx-self.zeroX
         ret_y = gy-self.zeroY
-        ret_z = gz-self.zeroZ
-        
-        print(" NEW " )
 
+        # UnWrapp data TODO optimize it
+        if gz < -sensor.zeroZ*0.9:
+            print("Cr : " + str(gz) + " > " + str(gz+self.zeroZ))
+            gz += sensor.zeroZ
+            ret_z = gz
+        else:
+            ret_z = gz-self.zeroZ
+        
         items_x = deque(self.data_x)
         items_y = deque(self.data_y)
         items_z = deque(self.data_z)
         
-        
-        print("raw: " + str(self.data_x))
-        print("   : "+str(items_x)+"len " + str(len(items_x)))
+        #print("raw: " + str(self.data_z))
+        #print("   : "+str(items_z)+"len " + str(len(items_z)))
 
         if len(items_x) >= self.buf_len:
             items_x.popleft()
-            print("PopLeft + ")
-            print("After: "+str(items_x)+"len " + str(len(items_x)))
             items_y.popleft()
             items_z.popleft()
         
         items_x.append(ret_x)
-        print("Appending " + str(ret_x))
         items_y.append(ret_y)
         items_z.append(ret_z)
         
         self.data_x = list(items_x)
         self.data_y = list(items_y)
-        print("Dump")
-        print("raw: A " + str(self.data_x))
         self.data_z = list(items_z)
 
         if filt:
-            self.med_filter_data()
+            #self.med_filter_data()
+            self.low_pass((ret_x,ret_y,ret_z))
+
+        #print("raw: A " + str(self.data_z))
 
         return (self.data_x[-1], self.data_y[-1], self.data_z[-1])
 
     def med_filter_data(self):
-        self.data_x = medfilt(self.data_x,self.filt_len)
-        self.data_y = medfilt(self.data_y,self.filt_len)
-        self.data_z = medfilt(self.data_z,self.filt_len)
-        print("B")
+        # TODO make a copy of the data, compute the mean and ret val
+        self.data_x = list(medfilt(self.data_x,self.filt_len))
+        self.data_y = list(medfilt(self.data_y,self.filt_len))
+        self.data_z = list(medfilt(self.data_z,self.filt_len))
+
+    def low_pass(self, data):
+        # X comp
+        new_x = (1-self.alpha_lp) * self.data_x[-2] + self.alpha_lp * self.data_x[-1]
+        self.data_x[-1] = new_x
+        # Y comp
+        new_y = (1-self.alpha_lp) * self.data_y[-2] + self.alpha_lp * self.data_y[-1]
+        self.data_y[-1] = new_y
+        # Z comp 
+        new_z = (1-self.alpha_lp) * self.data_z[-2] + self.alpha_lp * self.data_z[-1]
+        self.data_z[-1] = new_z
 
     def save_data_csv(self,val1,val2,val3):
         data = ['g',val1,val2,val3,'z']
@@ -157,12 +170,9 @@ if __name__ == '__main__':
 	#print "Bias: x " ,zeroX, " y ", zeroY, " z ", zeroZ
     while True:
         try:
-	        gx, gy, gz = sensor.read_data_calib(filt=False)
+	        gx, gy, gz = sensor.read_data_calib(filt=True)
             
-            # UnWrapp data TODO optimize it
-            if gz<-sensor.zeroZ*0.9:
-                gz += sensor.zeroZ
-	        print gz, gz - sensor.zeroZ
+	        print gz
             sensor.save_data_csv(0,gz,gz-sensor.zeroZ)
         except:
             print("Skipping values")

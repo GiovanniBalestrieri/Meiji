@@ -26,29 +26,32 @@ readings = [0,0,0]
 with open("calibrate_values.csv","wb") as csv_file:
     writer = csv.writer(csv_file,delimiter=',')
     for i in range(0,800):
-        x_out = i2cutils.i2c_read_word_signed(bus,address,3)
-        y_out = i2cutils.i2c_read_word_signed(bus,address,7)
-        z_out = i2cutils.i2c_read_word_signed(bus,address,5)
+        try:
+            x_out = i2cutils.i2c_read_word_signed(bus,address,3)
+            y_out = i2cutils.i2c_read_word_signed(bus,address,7)
+            z_out = i2cutils.i2c_read_word_signed(bus,address,5)
 
-        readings[0] = x_out
-        readings[1] = y_out
-        readings[2] = z_out
+            readings[0] = x_out
+            readings[1] = y_out
+            readings[2] = z_out
 
-        for i in range(3):
-            if readings[i] > max_val[i]:
-                max_val[i] = readings[i]
+            for i in range(3):
+                if readings[i] > max_val[i]:
+                    max_val[i] = readings[i]
 
-            if readings[i] < min_val[i]:
-                min_val[i] = readings[i]
+                if readings[i] < min_val[i]:
+                    min_val[i] = readings[i]
     
-        bearing  = math.atan2(y_out, x_out) 
-        if (bearing < 0):
-            bearing += 2 * math.pi
+            bearing  = math.atan2(y_out, x_out) 
+            if (bearing < 0):
+                bearing += 2 * math.pi
     
-        print x_out, y_out, z_out, math.degrees(bearing)#, (x_out * scale), (y_out * scale), bearing
-        data = ['a',x_out,y_out,z_out,bearing,'z']
-        writer.writerow(data)
-        time.sleep(0.1)
+            print x_out, y_out, z_out, math.degrees(bearing)#, (x_out * scale), (y_out * scale), bearing
+            data = ['a',x_out,y_out,z_out,bearing,'z']
+            writer.writerow(data)
+            time.sleep(0.1)
+        except:
+            print("gesu")
 
 print("Calibration done: min: " +str(min_val) + " max: " + str(max_val))
 print("Getting hard iron corrections ...")

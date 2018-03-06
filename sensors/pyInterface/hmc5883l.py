@@ -31,7 +31,7 @@ class SensorHMC5338L(object):
 
         def load_config(self):
             try:
-                with open("magnetometer/config_mag_good_4_toutilo.csv",'rb') as csv_file:
+                with open("magnetometer/config_mag.csv",'rb') as csv_file:
                     reader = csv.reader(csv_file, delimiter=',')
                     bias_read = False
                     scale_read = False
